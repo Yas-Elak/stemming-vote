@@ -2,8 +2,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote
 import json
-from googlesearch import search
-
 
 def detail_voting_point(request, seance_id, votingpoint_id):
 

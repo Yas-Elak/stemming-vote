@@ -24,3 +24,8 @@ package-lock.json
 staticfiles/*
 !staticfiles/.gitkeep 
 .vscode/symbols.json
+
+
+# Specific files #
+##################
+core/settings.py

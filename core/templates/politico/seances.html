@@ -1,0 +1,65 @@
+{% extends "../layouts/base.html" %}
+{% load staticfiles %}
+{% block title %} Séances / Vergaderingen {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/politico_style.css' %}">
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!-- [ Hover-table ] start -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h5>Séances plénieres / Plenaire vergaderingen</h5>
+                            </div>
+                            <div class="card-block table-border-style">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Séances / Zittingen</th>
+                                                <th>Date / Datum</th>
+                                                <th>Législature / Zittingsperiode</th>
+                                                <th>Texte / Tekst</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for seance in seances %}
+                                            <tr>
+                                                <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
+                                                <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
+                                                <td>{{ seance.seance_legislature }}</td>
+                                                <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"/></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Hover-table ] end -->
+
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

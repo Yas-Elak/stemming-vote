@@ -1,0 +1,33 @@
+td {
+  white-space: normal !important;
+  word-wrap: break-word;
+
+}
+
+
+
+.list-decision-title{
+    color: white !important;
+}
+
+.list-decision-name{
+  font-size: large !important;
+}
+
+.list-decision-title-cell-yes{
+  background-image: linear-gradient(to right, #1de9b6 , #d0faf0) !important;
+  border: 1px solid rgba(0,0,0,.125) !important;
+}
+
+.list-decision-title-cell-no{
+  background-image: linear-gradient(to right, #ff3b3b , #ffc4c4) !important;
+  border: 1px solid rgba(0,0,0,.125) !important;
+}
+
+.list-decision-title-cell-abs{
+  background-image: linear-gradient(to right, #04a9f5 , #bfeafe) !important;
+  border: 1px solid rgba(0,0,0,.125) !important;
+}
+.image-parent-decision-list{
+    max-width: 100px;
+}

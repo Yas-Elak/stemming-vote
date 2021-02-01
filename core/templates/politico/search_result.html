@@ -1,0 +1,246 @@
+{% extends "layouts/base.html" %}
+{% load staticfiles %}
+
+{% block title %} Résultats / Zoekresultaten {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/politico_style.css' %}">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Résultats de la recherche / Zoekresultaten</h5>
+                            </div>
+                            <div class="card-block">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+
+                                            {% if seances %}
+                                            <a class="btn btn-primary m-t-5" data-toggle="collapse"
+                                               href="#collapseSeance" role="button" aria-expanded="false"
+                                               aria-controls="collapseSeance">Séances / Zittingen</a>
+                                            {% endif %}
+
+                                            {% if voting_points %}
+                                            <a class="btn btn-primary m-t-5" data-toggle="collapse"
+                                               href="#collapseVP" role="button" aria-expanded="false"
+                                               aria-controls="collapseVP">Points / Punten</a>
+                                            {% endif %}
+
+                                            {% if amendements %}
+                                            <a class="btn btn-primary m-t-5" data-toggle="collapse"
+                                               href="#collapseAmendements" role="button" aria-expanded="false"
+                                               aria-controls="collapseAmendements">Amendements</a>
+                                            {% endif %}
+
+                                            {% if members %}
+                                            <a class="btn btn-primary m-t-5" data-toggle="collapse"
+                                               href="#collapseMembres" role="button" aria-expanded="false"
+                                               aria-controls="collapseMembres">Membres / Kamerleden</a>
+                                            {% endif %}
+
+
+
+                                        </div>
+                                        {% if seances %}
+                                        <div class="collapse" id="collapseSeance">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Séances / Zittingen</th>
+                                                            <th>Date / Datum</th>
+                                                            <th>Législature / Zittingsperiode</th>
+                                                            <th>Texte / Tekst</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for seance in seances %}
+                                                        <tr>
+                                                            <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
+                                                            <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
+                                                            <td>{{ seance.seance_legislature }}</td>
+                                                            <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"></i></a></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if voting_points %}
+                                        <div class="collapse" id="collapseVP">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-seance">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Point / Punt</th>
+                                                            <th>Oui / Ja</th>
+                                                            <th>Non / Nee</th>
+                                                            <th>Abstention / onthouding</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for vp in voting_points  %}
+                                                        <tr>
+                                                            <td>
+                                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/">
+                                                                    {{ vp.point_title_fr }} <br>-<br>
+                                                                    {{ vp.point_title_nl }}
+                                                                </a></td>
+                                                            <td>{% if vp.amendement_set.count < 1 %}
+                                                                {{ vp.totalvote_set.first.number_of_oui}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                {% if vp.amendement_set.count < 1 %}
+                                                                {{ vp.totalvote_set.first.number_of_non }}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{% if vp.amendement_set.count < 1 %}
+                                                                {{ vp.totalvote_set.first.number_of_abstention }}
+                                                                {% endif %}</td>
+                                                        </tr>
+                                                        {% for amendement in vp.amendement_set.all %}
+                                                        <tr>
+
+                                                            <td>
+                                                                <a href="/seance/{{ amendement.seance_id }}/{{vp.id}}/{{amendement.id}}/"><p style="margin-left:2em">
+                                                                    {{ amendement.title_fr }} <br>-<br>
+                                                                    {{ amendement.title_nl }}
+                                                                </p></a>
+                                                                </p></td>
+                                                            <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
+                                                            <td>{{ amendement.totalvote_set.first.number_of_non }}</td>
+                                                            <td>{{ amendement.totalvote_set.first.number_of_abstention }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if amendements %}
+                                        <div class="collapse" id="collapseAmendements">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-seance">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Amendement</th>
+                                                            <th>Oui / Ja</th>
+                                                            <th>Non / Nee</th>
+                                                            <th>Abstention / Onthouding</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        {% for amendement in amendements %}
+                                                        <tr>
+                                                            <td>
+                                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.voting_point_id}}/{{ amendement.id }}/"><p>
+                                                                    {{ amendement.title_fr }} <br>-<br>
+                                                                    {{ amendement.title_nl }}
+                                                                </p></a>
+                                                                </p></td>
+                                                            <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
+                                                            <td>{{ amendement.totalvote_set.first.number_of_non }}</td>
+                                                            <td>{{ amendement.totalvote_set.first.number_of_abstention }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+
+                                        {% if members %}
+                                        <div class="collapse" id="collapseMembres">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Photo / Foto</th>
+                                                            <th>Nom / Naam</th>
+                                                            <th>Parti / Partik</th>
+                                                            <th>Email</th>
+                                                            <th>Page / Pagina</th>
+                                                            <th>website</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for m in members %}
+                                                        <tr>
+                                                            <td>
+                                                                <div class="image-parent-decision-list">
+                                                                    <img src="{{ m.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                                </div>
+                                                            </td>
+                                                            <td class="align-middle list-decision-name"><a href="/members/{{m.id}}">{{ m.voter_name }}</a></td>
+                                                            <td class="align-middle list-decision-name">{{ m.voter_parti.parti_name }}</td>
+                                                            <td class="align-middle list-decision-name">
+                                                                {% if m.voter_email %}
+                                                                {{ m.voter_email }}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="align-middle list-decision-name">{% if m.voter_url %}
+
+                                                                <a href="{{ m.voter_url }}"><i class="feather icon-file-text"></i></a>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="align-middle list-decision-name">
+                                                                {% if m.voter_website %}
+                                                                <a href="{{ m.voter_website }}"><i class="feather icon-globe"></i></a>
+                                                                {% endif %}
+                                                            </td>
+
+                                                        </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

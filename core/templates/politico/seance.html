@@ -1,0 +1,93 @@
+{% extends "../layouts/base.html" %}
+{% load staticfiles %}
+
+{% block title %} Séance / Vergadering {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/politico_style.css' %}">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!-- [ Hover-table ] start -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Séance pléniere / Plenaire vergadering</h5>
+                            </div>
+                            <div class="card-block table-border-style">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-seance">
+                                        <thead>
+                                        <tr>
+                                            <th>Point / Punt</th>
+                                            <th>Oui / Ja</th>
+                                            <th>Non / Nee</th>
+                                            <th>Abstention / onthouding</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for vp in voting_points  %}
+                                        <tr>
+                                            <td>
+                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/">
+                                                    {{ vp.point_title_fr }} <br>-<br>
+                                                    {{ vp.point_title_nl }}
+                                                </a></td>
+                                            <td>{% if vp.amendement_set.count < 1 %}
+                                                    {{ vp.totalvote_set.first.number_of_oui}}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if vp.amendement_set.count < 1 %}
+                                                {{ vp.totalvote_set.first.number_of_non }}
+                                                {% endif %}
+                                            </td>
+                                            <td>{% if vp.amendement_set.count < 1 %}
+                                                {{ vp.totalvote_set.first.number_of_abstention }}
+                                            {% endif %}</td>
+                                        </tr>
+                                        {% for amendement in vp.amendement_set.all %}
+                                        <tr>
+
+                                            <td>
+                                                <a href="/seance/{{ amendement.seance_id }}/{{vp.id}}/{{amendement.id}}/"><p style="margin-left:2em">
+                                                    {{ amendement.title_fr }} <br>-<br>
+                                                    {{ amendement.title_nl }}
+                                                </p></a>
+                                                </p></td>
+                                            <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
+                                            <td>{{ amendement.totalvote_set.first.number_of_non }}</td>
+                                            <td>{{ amendement.totalvote_set.first.number_of_abstention }}</td>
+                                        </tr>
+                                        {% endfor %}
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Hover-table ] end -->
+
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

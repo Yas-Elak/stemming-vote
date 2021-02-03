@@ -1,5 +1,5 @@
 {% extends "layouts/base.html" %}
-
+{% load i18n %}
 {% block title %} Dashboard {% endblock %}
 
 <!-- Specific CSS goes HERE -->
@@ -7,12 +7,12 @@
 
 {% block content %}
 
+{% get_current_language as LANGUAGE_CODE %}
+{{ LANGUAGE_CODE }}
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <!-- [ breadcrumb ] start -->
-{% load i18n %}
-<h1>Home</h1>
-<p>{% trans "Life is life." %}</p>
+
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <div class="page-wrapper">
@@ -22,7 +22,7 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card daily-sales">
                             <div class="card-block">
-                                <h6 class="mb-4">Nombre de séances analysées / Aantal geanalyseerde sessies</h6>
+                                <h6 class="mb-4">{% trans "Nombre de séances analysées" %}</h6>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-file-text text-c-green f-30 m-r-10"></i>84</h3>
@@ -43,7 +43,7 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card Monthly-sales">
                             <div class="card-block">
-                                <h6 class="mb-4">Nombre de votes passés / Stemgedrag in het verleden.</h6>
+                                <h6 class="mb-4">{% trans "Nombre de votes passés" %}</h6>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-mail text-c-red f-30 m-r-10"></i>{{ total_votes_count }}</h3>
@@ -63,7 +63,7 @@
                     <div class="col-md-12 col-xl-4">
                         <div class="card yearly-sales">
                             <div class="card-block">
-                                <h6 class="mb-4">Nombre de politiciens qui ont votés / Aantal politici dat heeft gestemd</h6>
+                                <h6 class="mb-4">{% trans "Nombre de politiciens qui ont votés" %}</h6>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user text-c-green f-30 m-r-10"></i>{{ voters }}</h3>
@@ -83,7 +83,7 @@
                     <div class="col-xl-8 col-md-6">
                         <div class="card Recent-Users">
                             <div class="card-header">
-                                <h5>Séances récentes / Recente zittingen</h5>
+                                <h5>{% trans "Séances récentes" %}</h5>
                             </div>
                             <div class="card-block px-0 py-3">
                                 <div class="table-responsive">
@@ -94,9 +94,10 @@
                                             <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
                                             <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
                                             <td>{{ seance.seance_legislature }}</td>
-                                            <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"/></a></td>
+                                            <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"></i></a></td>
                                         </tr>
                                         {% endfor %}
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -111,33 +112,16 @@
                             <div class="card-block">
                                 <div class="row align-items-center justify-content-center">
                                     <div class="col">
-                                        <h5 class="m-0">Pour le futur</h5>
+                                        <h5 class="m-0">{% trans "Pour le futur" %}</h5>
                                     </div>
                                 </div>
                                 <ul class="list-group">
-                                    <li class="list-group-item">Ajouter des tags sur les points.</li>
-                                    <li class="list-group-item">Ajouter la possibilité de commenter.</li>
-                                    <li class="list-group-item">Lier des articles aux points votés.</li>
-                                    <li class="list-group-item">Rendre possible de mettre un point en avant pour être en page d'accueil.</li>
-                                    <li class="list-group-item">Analyser les autres législatures.</li>
-                                    <li class="list-group-item">Analyser les autres niveaux de pouvoir.</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card card-event">
-                            <div class="card-block">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col">
-                                        <h5 class="m-0">Voor de toekomst</h5>
-                                    </div>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">Tags toevoegen aan de punten.</li>
-                                    <li class="list-group-item">Voeg de mogelijkheid toe om commentaar te geven.</li>
-                                    <li class="list-group-item">Koppel artikelen aan gestemde artikelen.</li>
-                                    <li class="list-group-item">Maak het mogelijk om een punt naar voren te schuiven om op de startpagina te komen.</li>
-                                    <li class="list-group-item">Analyseer andere wetgevende machten.</li>
-                                    <li class="list-group-item">Analyseer andere niveaus van macht.</li>
+                                    <li class="list-group-item">{% trans "Ajouter des tags sur les points." %}</li>
+                                    <li class="list-group-item">{% trans "Ajouter la possibilité de commenter." %}</li>
+                                    <li class="list-group-item">{% trans "Lier des articles aux points votés." %}</li>
+                                    <li class="list-group-item">{% trans "Rendre possible de mettre un point en avant pour être en page d'accueil." %}</li>
+                                    <li class="list-group-item">{% trans "Analyser les autres législatures." %}</li>
+                                    <li class="list-group-item">{% trans "Analyser les autres niveaux de pouvoir." %}</li>
                                 </ul>
                             </div>
                         </div>
@@ -148,23 +132,16 @@
                         <div class="card">
                             <div class="card-block border-bottom">
                                 <div class="row align-items-center justify-content-center">
-                                    <h3>Pourquoi ce site ? / Waarom deze website? </h3>
+                                    <h3>{% trans "Pourquoi ce site ?" %}</h3>
                                 </div>
                             </div>
                             <div class="card-block">
                                 <div class="row align-items-center justify-content-center card-active">
-                                    <p>Je veux simplement montrer qui a voté pour quoi afin que tout le monde, lors des élections, puisse facilement avoir accès à ce informations plus qu'importantes.
+                                    <p>{% blocktrans %}Je veux simplement montrer qui a voté pour quoi afin que tout le monde, lors des élections, puisse facilement avoir accès à ce informations plus qu'importantes.
                                         Ici, vous pouvez voir pour quel sujet les politiciens ont voté et vous avez la répartition par parti.
                                         L'idée est donc simplement d'amener une information de la manière la plus visible possible.
-                                        Beaucoup de choses se passent juste en face de nous, mais les moyens d'y avoir accès sont fastidieux et découragent vite les gens.
-
-                                    </p><hr>
-                                    <p>
-                                        Ik wil alleen laten zien wie waarvoor heeft gestemd, zodat iedereen bij de verkiezingen gemakkelijk toegang heeft tot deze zeer belangrijke informatie.
-                                        Hier kunt u zien welke politici hebben gestemd en u hebt de verdeling per partij.
-                                        Het idee is dus gewoon om informatie op een zo zichtbaar mogelijke manier te brengen.
-                                        Er gebeurt van alles recht voor onze neus, maar de middelen om er toegang toe te krijgen zijn omslachtig en ontmoedigen mensen snel.
-
+                                        Beaucoup de choses se passent juste en face de nous, mais les moyens d'y avoir accès sont fastidieux et découragent vite les gens.{% endblocktrans %}
+                                    </p>
                                     </p>
                                 </div>
                             </div>
@@ -174,13 +151,12 @@
                        <div class="card">
                             <div class="card-block border-bottom">
                                 <div class="row align-items-center justify-content-center">
-                                    <h3>Qui suis-je ? / Wie ben ik?</h3>
+                                    <h3>{% trans "Qui suis-je ?" %}</h3>
                                 </div>
                             </div>
                             <div class="card-block">
                                 <div class="row align-items-center justify-content-center card-active">
-                                    <p>Juste un développeur qui veut s'investir plus dans notre pays. Vous pouvez me contacter à elalaoui87@gmail.com</p><hr>
-                                    <p>Gewoon een ontwikkelaar die meer betrokken wil raken bij ons land. Je kunt me bereiken op elalaoui87@gmail.com</p>
+                                    <p>{% trans "Juste un développeur qui veut s'investir plus dans notre pays. Vous pouvez me contacter à elalaoui87@gmail.com" %}</p><hr>
                                 </div>
                             </div>
                         </div>

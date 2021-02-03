@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load i18n %}
 
 {% block title %} Députés / Parlementslid {% endblock %}
 
@@ -27,14 +28,14 @@
                     <div class="col-sm-8">
                         <div class="card">
                              <div class="card-header">
-                                <h5>A propos / Over</h5>
+                                <h5>{% trans "A propos" %}</h5>
                             </div>
                             <div class="card-block">
                                 <ul class="list-group">
                                     <li  class="list-group-item">{{ voter.voter_email }}</li>
-                                    <li  class="list-group-item"><a href="{{ voter.voter_url }}">Lien vers la chambre. / Link naar de kamer.</a></li>
-                                    <li  class="list-group-item"><a href="{{ voter.voter_website }}">Mon site web / Mijn website</a></li>
-                                    <li  class="list-group-item"> J'ai voté {{ votes_count }} fois. / Ik heb {{ votes_count }} keer gestemd.</li>
+                                    <li  class="list-group-item"><a href="{{ voter.voter_url }}">{% trans "Lien vers lachambre.be" %}</a></li>
+                                    <li  class="list-group-item"><a href="{{ voter.voter_website }}">{% trans "Mon site web" %}</a></li>
+                                    <li  class="list-group-item">{% blocktrans %} J'ai voté {{ votes_count }} fois {% endblocktrans %} </li>
                                 </ul>
                             </div>
                         </div>
@@ -44,7 +45,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Data</h5>
+                                <h5>{% trans "Informations" %}</h5>
                             </div>
                             <div class="card-block">
                                <div class="card-block table-border-style">
@@ -52,10 +53,10 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                              <th>Séances</th>
-                                                <th>Date</th>
-                                                <th>Législature</th>
-                                                <th>Texte</th>
+                                              <th>{% trans "Séances" %}</th>
+                                                <th>{% trans "Date" %}</th>
+                                                <th>{% trans "Législature" %}</th>
+                                                <th>{% trans "Texte" %}</th>
                                             </tr>
                                         </thead>
                                         <tbody>

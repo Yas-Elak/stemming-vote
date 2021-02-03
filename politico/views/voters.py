@@ -28,6 +28,8 @@ def index(request):
 
 
 def detail_voter(request, voter_id):
+    cur_language = translation.get_language()
+
     voter = Voter.objects.get(id=voter_id)
     #As I need and return a list for this def, I pass a list of len 1 and get the element 0 of the returned list
     voter = change_url_to_nl([voter])[0]
@@ -39,7 +41,14 @@ def detail_voter(request, voter_id):
     for vote in votes:
         votes_by_seances.append(vote.seance)
 
+    # For now I want to display the last session in the front page, but the title of the session is in french and dutch
+    # separated by "/" So I need to split it and get one part or another depending on the user language
     seances = set(votes_by_seances)
+    for seance in seances:
+        if cur_language == 'fr':
+            seance.seance_name = (seance.seance_name).split('/')[0]
+        else:
+            seance.seance_name = (seance.seance_name).split('/')[1]
     return render(request, "politico/member.html", {'voter': voter,
                                                     'votes_count': votes_count,
                                                     'votes': votes,

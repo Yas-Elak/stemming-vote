@@ -5,6 +5,8 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django.urls import path
 from politico.views import seances, points, voters, search, homepage
+from django.conf.urls.i18n import i18n_patterns
+from django.urls import include, path
 
 urlpatterns = [
 
@@ -21,4 +23,7 @@ urlpatterns = [
     path('search/', search.index, name='search_index'),
     path('search/result/', search.result, name='search_results'),
 
+
 ]
+
+

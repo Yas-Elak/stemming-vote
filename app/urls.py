@@ -15,3 +15,6 @@ urlpatterns = [
     #re_path(r'^.*\.*', views.pages, name='pages'),
 
 ]
+
+
+

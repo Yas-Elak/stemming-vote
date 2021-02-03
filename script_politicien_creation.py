@@ -72,7 +72,7 @@ for depute in deputes_list:
                    voter_email=depute[4],
                    voter_image=depute[1])
 
-    voter.save()
+    #voter.save()
 
     # seance_one = Seance(seance_name="eee",seance_date=datetime.datetime(2019, 7, 18),seance_legislature="55",seance_url="https://www.lachambre.be/doc/PCRI/html/55/ip004x.html")
 

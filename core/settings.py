@@ -7,6 +7,7 @@ import os
 from decouple import config
 from unipath import Path
 import dj_database_url
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -38,6 +39,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -49,6 +51,9 @@ ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "core/templates")  # ROOT dir for templates
+
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
 
 TEMPLATES = [
     {
@@ -106,8 +111,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
+# Internationalization
+# https://docs.djangoproject.com/en/2.2/topics/i18n/
+LANGUAGES = (
+    ('fr', _('Fr')),
+    ('nl', _('Nl')),
+)
 TIME_ZONE = 'UTC'
 
 USE_I18N = True

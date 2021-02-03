@@ -31,3 +31,7 @@ td {
 .image-parent-decision-list{
     max-width: 100px;
 }
+
+
+
+svg { overflow: visible !important; }

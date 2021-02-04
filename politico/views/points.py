@@ -2,17 +2,28 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote
 import json
+from django.utils import translation
+
+from .constants import *
 
 def detail_voting_point(request, seance_id, votingpoint_id):
+    cur_language = translation.get_language()
 
     seance = Seance.objects.get(id=seance_id)
+    if cur_language == 'fr':
+        seance.seance_name = (seance.seance_name).split('/')[0]
+    else:
+        seance.seance_name = (seance.seance_name).split('/')[1]
+
     voting_point = VotingPoint.objects.get(id=votingpoint_id)
 
     # there is a table with the total_vote for each point. I get the total vot of the current point
     # this could be empty as some point has no vote but only amendement with votes
     voting_point_total_vote = TotalVote.objects.filter(voting_point=votingpoint_id, amendement__isnull=True).first()
 
-    amendements = Amendement.objects.filter(voting_point=votingpoint_id)
+    #got the amendement link to to this point, has the voting point ha no vote of his own, then he has amendment
+    if not voting_point_total_vote:
+        amendements = Amendement.objects.filter(voting_point=votingpoint_id)
 
     # I declare the var outside the if to please pycharm, or it says it could be not declared I put -1 as it's impossible
     # for a total and so, it's easy to find if we have a real total of votes or not.
@@ -54,19 +65,20 @@ def detail_voting_point(request, seance_id, votingpoint_id):
         # end code for chart bar stacked
 
 
+        #the last item of the list is for the id in the HTML as some parti has name not compatible for ID
         decisions_by_parti = [
-            ['CD&V', [], [], []],
-            ['cdH', [], [], []],
-            ['Défi', [], [], []],
-            ['Ecolo-Groen', [], [], []],
-            ['MR', [], [], []],
-            ['N-VA', [], [], []],
-            ['Open Vld', [], [], []],
-            ['PS', [], [], []],
-            ['PVDA-PTB', [], [], []],
-            ['sp.a', [], [], []],
-            ['VB', [], [], []],
-            ['INDEP', [], [], []],
+            ['CD&V', [], [], [], 'CDV'],
+            ['cdH', [], [], [], 'cdh'],
+            ['Défi', [], [], [], 'Defi'],
+            ['Ecolo-Groen', [], [], [], 'Ecolo-Groen'],
+            ['INDEP', [], [], [], 'INDEP'],
+            ['MR', [], [], [], 'MR'],
+            ['N-VA', [], [], [], 'N-VA'],
+            ['Open Vld', [], [], [], 'Open-Vld'],
+            ['PS', [], [], [], 'PS'],
+            ['PVDA-PTB', [], [], [], 'PVDA-PTB'],
+            ['sp.a', [], [], [], 'spa'],
+            ['VB', [], [], [], 'VB'],
         ]
 
         for vote in all_the_votes:
@@ -83,6 +95,7 @@ def detail_voting_point(request, seance_id, votingpoint_id):
                 decisions_by_parti[parti_index][3].append(vote.voter)
 
 
+    #as some point ha no amendment... TODO
     is_amendement = False
 
     return render(request, 'politico/vote.html', {'seance': seance,
@@ -93,7 +106,7 @@ def detail_voting_point(request, seance_id, votingpoint_id):
                                                   'decisions_by_parti': decisions_by_parti,
                                                   'amendenements': amendements,
                                                   'is_amendement': is_amendement,
-                                                  'segment': 'seances'})
+                                                  'segment': 'seances',})
 
 
 

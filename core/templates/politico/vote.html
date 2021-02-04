@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 
 {% block title %} Vote / Stemming {% endblock %}
@@ -12,6 +13,8 @@
 {% endblock stylesheets %}
 
 {% block content %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -36,18 +39,17 @@
                         <div class="card">
                             <div class="card-block">
                                 {% if is_amendement is False %}
-                                    {{ voting_point.point_title_fr }}
-                                    <br>
-                                    -
-                                    <br>
-                                    {{ voting_point.point_title_nl }}
-                                    {% if amendement %}
-                                    <hr>
-                                    {{ amendement.title_fr }}
-                                    <br>
-                                    -
-                                    <br>
-                                    {{ amendement.title_nl }}
+                                    {% if LANGUAGE_CODE == 'fr' %}
+                                        {{ voting_point.point_title_fr }}
+                                    {% else %}
+                                        {{ voting_point.point_title_nl }}
+                                    {% endif %}
+                                {% if amendement %}
+                                    {% if LANGUAGE_CODE == 'fr' %}
+                                        {{ amendement.title_fr }}
+                                    {% else %}
+                                        {{ amendement.title_nl }}
+                                    {% endif %}
                                 {% endif %}
 
                                 {% endif %}
@@ -57,11 +59,12 @@
                     </div>
                 </div>
                 {% if total != -1 %}
+                <!-- this means we have a voting point for this point and not only amendemant -->
                 <div class="row">
                     <div class="col-xl-5">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Total / Totaal : {{ total }} </h5>
+                                <h5>{% blocktrans %}Total : {{ total }} {% endblocktrans %} </h5>
                             </div>
                             <div class="card-block">
                                 <div id="morris-bar-chart" style="height:300px"></div>
@@ -72,7 +75,7 @@
                     <div class="col-xl-7">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Articles sur le sujet / Artikelen over dit onderwerp </h5>
+                                <h5>{% trans "Articles sur le sujet" %}</h5>
                             </div>
                             <div class="card-block">
                                 <div style="height:300px"></div>
@@ -87,7 +90,7 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Votes par parti / Stemmen per partij</h5>
+                                <h5>{% trans "Votes par parti" %}</h5>
                             </div>
                             <div class="card-block">
                                 <div id="morris-bar-stacked-chart" style="height:300px"></div>
@@ -104,50 +107,21 @@
                         <div id="collapseOne" class=" card-body collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                             <div>
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    {% for parti in decisions_by_parti %}
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="CDV-tab" data-toggle="tab" href="#CDV" role="tab" aria-controls="CDV" aria-selected="true">CD&V</a>
+                                        <a class="nav-link {% if forloop.counter0 == 0 %}active {% endif %}" id="{{parti.4}}-tab" data-toggle="tab" href="#{{parti.4}}" role="tab" aria-controls="{{parti.4}}" aria-selected="true">{{ parti.0 }}</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="cdH-tab" data-toggle="tab" href="#cdH" role="tab" aria-controls="cdH" aria-selected="false">cdH</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="Defi-tab" data-toggle="tab" href="#Defi" role="tab" aria-controls="Defi" aria-selected="false">Défi</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="Ecolo-Groen-tab" data-toggle="tab" href="#Ecolo-Groen" role="tab" aria-controls="Ecolo-Groen" aria-selected="false">Ecolo-Groen</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="MR-tab" data-toggle="tab" href="#MR" role="tab" aria-controls="MR" aria-selected="false">MR</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="N-VA-tab" data-toggle="tab" href="#N-VA" role="tab" aria-controls="N-VA" aria-selected="false">N-VA</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="Open-Vld-tab" data-toggle="tab" href="#Open-Vld" role="tab" aria-controls="Open-Vld" aria-selected="false">Open-Vld</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="PS-tab" data-toggle="tab" href="#PS" role="tab" aria-controls="PS" aria-selected="false">PS</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="PVDA-PTB-tab" data-toggle="tab" href="#PVDA-PTB" role="tab" aria-controls="PVDA-PTB" aria-selected="false">PVDA-PTB</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="spa-tab" data-toggle="tab" href="#spa" role="tab" aria-controls="spa" aria-selected="false">sp.a</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="VB-tab" data-toggle="tab" href="#VB" role="tab" aria-controls="VB" aria-selected="false">VB</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="INDEP-tab" data-toggle="tab" href="#INDEP" role="tab" aria-controls="INDEP" aria-selected="false">INDEP</a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="CDV" role="tabpanel" aria-labelledby="CDV-tab">
+                                    {% for parti in decisions_by_parti %}
+                                    <div class="tab-pane fade show {% if forloop.counter0 == 0 %}active {% endif %}" id="{{ parti.4 }}" role="tabpanel" aria-labelledby="{{parti.4}}-tab">
                                         <div class="row">
+
                                             <div class="col-xl-4 col-sm-12">
                                                 <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.0.1 %}
+                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">{% trans "Oui" %}</h3></li>
+                                                    {% for voter in parti.1 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
                                                         {{ voter.voter_name }}
                                                         <div class="image-parent-decision-list">
@@ -157,10 +131,11 @@
                                                     {% endfor %}
                                                 </ul>
                                             </div>
+
                                             <div class="col-xl-4 col-sm-12">
                                                 <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.0.2 %}
+                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">{% trans "Non" %}</h3></li>
+                                                    {% for voter in parti.2 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
                                                         {{ voter.voter_name }}
                                                         <div class="image-parent-decision-list">
@@ -170,11 +145,13 @@
                                                     {% endfor %}
                                                 </ul>
                                             </div>
+
+
                                             <div class="col-xl-4 col-sm-12">
                                                 <div class="decision_heading"></div>
                                                 <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.0.3 %}
+                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">{% trans "Abstention" %}</h3></li>
+                                                    {% for voter in parti.3 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
                                                         {{ voter.voter_name }}
                                                         <div class="image-parent-decision-list">
@@ -184,518 +161,32 @@
                                                     {% endfor %}
                                                 </ul>
                                             </div>
+
+
                                         </div>
                                     </div>
 
-                                    <div class="tab-pane fade" id="cdH" role="tabpanel" aria-labelledby="cdH-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.1.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.1.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.1.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="Defi" role="tabpanel" aria-labelledby="Defi-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.2.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.2.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.2.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="Ecolo-Groen" role="tabpanel" aria-labelledby="Ecolo-Groen-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.3.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.3.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.3.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="MR" role="tabpanel" aria-labelledby="MR-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.4.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.4.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.4.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="NV-A" role="tabpanel" aria-labelledby="NV-A-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.5.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.5.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.5.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="Open-Vld" role="tabpanel" aria-labelledby="Open-Vld-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.6.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.6.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.6.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
 
 
 
 
 
 
-                                    <div class="tab-pane fade" id="PS" role="tabpanel" aria-labelledby="PS-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.7.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.7.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.7.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="tab-pane fade" id="PVDA-PTB" role="tabpanel" aria-labelledby="PVDA-PTB-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.8.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.8.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.8.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="tab-pane fade" id="spa" role="tabpanel" aria-labelledby="spa-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.9.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.9.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.9.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="VB" role="tabpanel" aria-labelledby="VB-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.10.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.10.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.10.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="INDEP" role="tabpanel" aria-labelledby="INDEP-tab">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">Oui / Ja</h3></li>
-                                                    {% for voter in decisions_by_parti.11.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">Non / Nee</h3></li>
-                                                    {% for voter in decisions_by_parti.11.2 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                            <div class="col-xl-4 col-sm-12">
-                                                <div class="decision_heading"></div>
-                                                <ul>
-                                                    <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">Abstention / Outhouding</h3></li>
-                                                    {% for voter in decisions_by_parti.11.3 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div></div>
-                                </div></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {% else %}
+
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                <h5>Pas de vote pour ce point, uniquement des amendements y sont liés.</h5>
-                                <h5>Over dit punt wordt niet gestemd, er worden alleen amendementen op ingediend.</h5>
+                                <h5>{% trans "Pas de vote pour ce point, uniquement des amendements y sont liés." %}</h5>
                             </div>
                         </div>
                     </div>
@@ -707,17 +198,17 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Amendements</h5>
+                                <h5>{% trans "Amendements" %}</h5>
                             </div>
                             <div class="card-block table-border-style">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-seance">
                                         <thead>
                                         <tr>
-                                            <th>Point / Punt</th>
-                                            <th>Oui / Ja</th>
-                                            <th>Non / Nee</th>
-                                            <th>Abstention / onthouding</th>
+                                            <th>{% trans "Amendement" %}</th>
+                                            <th>{% trans "Oui" %}</th>
+                                            <th>{% trans "Non" %}</th>
+                                            <th>{% trans "Abstention" %}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -750,7 +241,7 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-block">
-                                <h5>Articles sur le sujet / Artikelen over dit onderwerp </h5>
+                                <h5>Articles sur le sujet</h5>
                             </div>
                             <div class="card-block">
                                 <div style="height:300px"></div>

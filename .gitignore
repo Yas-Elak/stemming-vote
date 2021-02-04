@@ -28,7 +28,7 @@ staticfiles/*
 
 # Specific files #
 ##################
-core/settings.py
+.core/settings.py
 
 .script_google_article.py
 .script_parti_creation.py

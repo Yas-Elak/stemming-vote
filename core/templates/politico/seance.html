@@ -1,5 +1,6 @@
 {% extends "../layouts/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block title %} Séance / Vergadering {% endblock %}
 
@@ -11,6 +12,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
+{% get_current_language as LANGUAGE_CODE %}
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -22,17 +24,17 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Séance pléniere / Plenaire vergadering</h5>
+                                <h5>{% trans "Séance pléniere" %}</h5>
                             </div>
                             <div class="card-block table-border-style">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-seance">
                                         <thead>
                                         <tr>
-                                            <th>Point / Punt</th>
-                                            <th>Oui / Ja</th>
-                                            <th>Non / Nee</th>
-                                            <th>Abstention / onthouding</th>
+                                            <th>{% trans "Point" %}</th>
+                                            <th>{% trans "Oui" %}</th>
+                                            <th>{% trans "Non" %}</th>
+                                            <th>{% trans "Abstention" %}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -41,11 +43,14 @@
                                             <td>
                                                 <!--  0 in the url because it is not an amendment but a point-->
                                                 <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
-                                                    {{ vp.point_title_fr }} <br>-<br>
+                                                    {% if LANGUAGE_CODE == 'fr' %}
+                                                        {{ vp.point_title_fr }}
+                                                    {% else %}
                                                     {{ vp.point_title_nl }}
+                                                    {% endif %}
                                                 </a></td>
                                             <td>{% if vp.amendement_set.count < 1 %}
-                                                    {{ vp.totalvote_set.first.number_of_oui}}
+                                                {{ vp.totalvote_set.first.number_of_oui}}
                                                 {% endif %}
                                             </td>
                                             <td>
@@ -55,7 +60,7 @@
                                             </td>
                                             <td>{% if vp.amendement_set.count < 1 %}
                                                 {{ vp.totalvote_set.first.number_of_abstention }}
-                                            {% endif %}</td>
+                                                {% endif %}</td>
                                         </tr>
                                         {% for amendement in vp.amendement_set.all %}
                                         <tr>

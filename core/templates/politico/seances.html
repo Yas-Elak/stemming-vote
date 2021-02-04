@@ -1,5 +1,7 @@
 {% extends "../layouts/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
+
 {% block title %} Séances / Vergaderingen {% endblock %}
 
 <!-- Specific CSS goes HERE -->
@@ -22,17 +24,17 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                    <h5>Séances plénieres / Plenaire vergaderingen</h5>
+                                    <h5>{% trans "Séances plénieres" %}</h5>
                             </div>
                             <div class="card-block table-border-style">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Séances / Zittingen</th>
-                                                <th>Date / Datum</th>
-                                                <th>Législature / Zittingsperiode</th>
-                                                <th>Texte / Tekst</th>
+                                                <th>{% trans "Séances" %}</th>
+                                                <th>{% trans "Date" %}</th>
+                                                <th>{% trans "Législature" %}</th>
+                                                <th>{% trans "Texte" %} </th>
                                             </tr>
                                         </thead>
                                         <tbody>

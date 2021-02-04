@@ -19,30 +19,28 @@
                 {% get_language_info_list for LANGUAGES as languages %}
 
 
-
-
                 <li class="nav-item pcoded-menu-caption">
                     <label>Navigation</label>
                 </li>
                 <li class="nav-item {% if 'index' in segment %} active {% endif %}">
-                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Accueil / Home</span></a>
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">{% trans "Accueil" %}</span></a>
                 </li>
 
                 <li class="nav-item {% if 'seances' in segment %} active {% endif %}">
-                    <a href="/seances/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-inbox"></i></span><span class="pcoded-mtext">Séances / Zittingen</span></a>
+                    <a href="/seances/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-inbox"></i></span><span class="pcoded-mtext">{% trans "Séances" %}</span></a>
                 </li>
 
                 <li class="nav-item {% if 'membres' in segment %} active {% endif %}">
-                    <a href="/members/" class="nav-link "><span class="pcoded-micon"><i class="fas fa-users"></i></span><span class="pcoded-mtext">Membres / Kamerleden</span></a>
+                    <a href="/members/" class="nav-link "><span class="pcoded-micon"><i class="fas fa-users"></i></span><span class="pcoded-mtext">{% trans "Membres" %}</span></a>
                 </li>
 
                 <li class="nav-item {% if 'search' in segment %} active {% endif %}">
-                    <a class="nav-link "><span class="pcoded-micon"><i class="feather icon-search"></i></span><span class="pcoded-mtext">Recherche / Zoeken</span></a>
+                    <a class="nav-link "><span class="pcoded-micon"><i class="feather icon-search"></i></span><span class="pcoded-mtext">{% trans "Recherche" %}</span></a>
                 </li>
 
                 <form style="max-width:90%; margin:auto;" action="{% url 'search_results' %}" method="get" >
                     <div class="form-group">
-                        <input name="q" type="text" class="form-control form-control-sm" placeholder="Search...">
+                        <input name="q" type="text" class="form-control form-control-sm" placeholder='{% trans "Chercher" %}"'>
                     </div>
                 </form>
                 <li class="fixed-bottom" style="margin: auto">

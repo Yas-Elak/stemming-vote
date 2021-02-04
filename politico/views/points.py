@@ -6,7 +6,10 @@ from django.utils import translation
 
 from .constants import *
 
-def detail_voting_point(request, seance_id, votingpoint_id):
+def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
+    stack_chart_json = []
+    decisions_by_parti = []
+    voting_point_of_amendement = None
     cur_language = translation.get_language()
 
     seance = Seance.objects.get(id=seance_id)
@@ -15,13 +18,21 @@ def detail_voting_point(request, seance_id, votingpoint_id):
     else:
         seance.seance_name = (seance.seance_name).split('/')[1]
 
-    voting_point = VotingPoint.objects.get(id=votingpoint_id)
+    # Here I'll now if I'm deling with a point that can have a vote or amendements
+    if is_amendement == 0:
+        voting_point = VotingPoint.objects.get(id=votingpoint_id)
+        #I got a total vote only if there is no amemdment link to this voting point
+        voting_point_total_vote = TotalVote.objects.filter(voting_point=votingpoint_id, amendement__isnull=True).first()
+    else:
+        #this is the amendement, I use the same var, but the difference is that an amendment has always a vote
+        # and not others amendement linked to it
+        voting_point = Amendement.objects.get(id=votingpoint_id)
+        voting_point_total_vote = TotalVote.objects.filter(amendement=votingpoint_id).first()
+        voting_point_of_amendement = voting_point.voting_point
 
-    # there is a table with the total_vote for each point. I get the total vot of the current point
-    # this could be empty as some point has no vote but only amendement with votes
-    voting_point_total_vote = TotalVote.objects.filter(voting_point=votingpoint_id, amendement__isnull=True).first()
 
-    #got the amendement link to to this point, has the voting point ha no vote of his own, then he has amendment
+    #got the amendement link to to this point, if the voting point has no vote of his own, then he has amendment
+    amendements = None
     if not voting_point_total_vote:
         amendements = Amendement.objects.filter(voting_point=votingpoint_id)
 
@@ -95,9 +106,6 @@ def detail_voting_point(request, seance_id, votingpoint_id):
                 decisions_by_parti[parti_index][3].append(vote.voter)
 
 
-    #as some point ha no amendment... TODO
-    is_amendement = False
-
     return render(request, 'politico/vote.html', {'seance': seance,
                                                   'voting_point': voting_point,
                                                   'total_vote': voting_point_total_vote,
@@ -106,7 +114,8 @@ def detail_voting_point(request, seance_id, votingpoint_id):
                                                   'decisions_by_parti': decisions_by_parti,
                                                   'amendenements': amendements,
                                                   'is_amendement': is_amendement,
-                                                  'segment': 'seances',})
+                                                  'segment': 'seances',
+                                                  'voting_point_of_amendement': voting_point_of_amendement})
 
 
 

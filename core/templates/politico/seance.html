@@ -39,7 +39,8 @@
                                         {% for vp in voting_points  %}
                                         <tr>
                                             <td>
-                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/">
+                                                <!--  0 in the url because it is not an amendment but a point-->
+                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
                                                     {{ vp.point_title_fr }} <br>-<br>
                                                     {{ vp.point_title_nl }}
                                                 </a></td>
@@ -60,7 +61,7 @@
                                         <tr>
 
                                             <td>
-                                                <a href="/seance/{{ amendement.seance_id }}/{{vp.id}}/{{amendement.id}}/"><p style="margin-left:2em">
+                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/"><p style="margin-left:2em">
                                                     {{ amendement.title_fr }} <br>-<br>
                                                     {{ amendement.title_nl }}
                                                 </p></a>

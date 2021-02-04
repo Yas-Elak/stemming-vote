@@ -34,24 +34,39 @@
                 </div>
 
 
+                {% if is_amendement == 1 %}
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                {% if is_amendement is False %}
-                                    {% if LANGUAGE_CODE == 'fr' %}
-                                        {{ voting_point.point_title_fr }}
-                                    {% else %}
-                                        {{ voting_point.point_title_nl }}
-                                    {% endif %}
-                                {% if amendement %}
-                                    {% if LANGUAGE_CODE == 'fr' %}
-                                        {{ amendement.title_fr }}
-                                    {% else %}
-                                        {{ amendement.title_nl }}
-                                    {% endif %}
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                {{ voting_point_of_amendement.point_title_fr }}
+                                {% else %}
+                                {{ voting_point_of_amendement.point_title_nl }}
                                 {% endif %}
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-block">
+                                {% if is_amendement == 0 %}
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                {{ voting_point.point_title_fr }}
+                                {% else %}
+                                {{ voting_point.point_title_nl }}
+                                {% endif %}
+                                {% else %}
+                                <!-- could add the point linked to the amendment -->
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                {{ voting_point.title_fr }}
+                                {% else %}
+                                {{ voting_point.title_nl }}
+                                {% endif %}
                                 {% endif %}
 
                             </div>
@@ -102,7 +117,7 @@
                 <div  class="accordion" id="accordionExample">
                     <div class="card">
                         <div class="card-header" id="headingOne">
-                            <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Montrer les votes individuels / Individuele stemmen tonen</a></h5>
+                            <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{% "Montrer les votes individuels" %}</a></h5>
                         </div>
                         <div id="collapseOne" class=" card-body collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                             <div>
@@ -193,7 +208,7 @@
                 </div>
 
 
- <!-- [ Hover-table ] start -->
+                <!-- [ Hover-table ] start -->
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
@@ -216,11 +231,16 @@
                                         {% for amendement in voting_point.amendement_set.all %}
                                         <tr>
                                             <td>
-                                                <a href="/seance/{{ amendement.seance_id }}/{{voting_point.id}}/{{ amendement.id }}/"><p>
-                                                    {{ amendement.title_fr }} <br>-<br>
+                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/">
+                                                    <p>
+                                                    {% if LANGUAGE_CODE == 'fr' %}
+                                                    {{ amendement.title_fr }}
+                                                    {% else %}
                                                     {{ amendement.title_nl }}
-                                                </p></a>
-                                                </p></td>
+                                                    {% endif %}
+                                                </p>
+                                                </a>
+                                            </td>
                                             <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
                                             <td>{{ amendement.totalvote_set.first.number_of_non }}</td>
                                             <td>{{ amendement.totalvote_set.first.number_of_abstention }}</td>
@@ -233,15 +253,15 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <!-- [ Hover-table ] end -->
+                </div>
+                <!-- [ Hover-table ] end -->
 
 
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-block">
-                                <h5>Articles sur le sujet</h5>
+                                <h5>{% trans "Articles sur le sujet" %}</h5>
                             </div>
                             <div class="card-block">
                                 <div style="height:300px"></div>

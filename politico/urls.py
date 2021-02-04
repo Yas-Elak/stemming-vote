@@ -15,7 +15,6 @@ urlpatterns = [
     path('seances/', seances.index, name="seances"),
     path('seance/<int:seance_id>/', seances.detail, name="seance_detail"),
     path('seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/', points.detail_voting_point, name="detail_voting_point"),
-    path('seance/<int:seance_id>/<int:votingpoint_id>/<int:amendement_id>/', points.detail_amendement, name="detail_amendement"),
 
     path('members/', voters.index, name="members"),
     path('members/<int:voter_id>/', voters.detail_voter, name="member"),

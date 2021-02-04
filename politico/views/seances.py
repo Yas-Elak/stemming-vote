@@ -28,5 +28,5 @@ def detail(request, seance_id):
         seance.seance_name = (seance.seance_name).split('/')[1]
 
     voting_points = VotingPoint.objects.filter(seance=seance)
-    return render(request, 'politico/seance.html', {'voting_points': voting_points, 'segment': 'seances'})
+    return render(request, 'politico/seance.html', {'voting_points': voting_points, 'segment': 'seances', 'seance': seance})
 

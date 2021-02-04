@@ -1,0 +1,238 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-04 14:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/settings.py:120
+msgid "Fr"
+msgstr "FR"
+
+#: core/settings.py:121
+msgid "Nl"
+msgstr "NL"
+
+#: core/templates/includes/sidebar.html:26
+msgid "Accueil"
+msgstr "Home"
+
+#: core/templates/includes/sidebar.html:30
+#: core/templates/politico/member.html:56
+#: core/templates/politico/seances.html:34
+msgid "Séances"
+msgstr "Vergaderingen"
+
+#: core/templates/includes/sidebar.html:34
+msgid "Membres"
+msgstr "Leden"
+
+#: core/templates/includes/sidebar.html:38
+msgid "Recherche"
+msgstr "Zoeken"
+
+#: core/templates/includes/sidebar.html:43
+msgid "Chercher"
+msgstr "Zoeken"
+
+#: core/templates/index.html:24
+msgid "Nombre de séances analysées"
+msgstr "Aantal geanalyseerde sessies"
+
+#: core/templates/index.html:44
+msgid "Nombre de votes passés"
+msgstr "Aantal stemmen in het verleden"
+
+#: core/templates/index.html:63
+msgid "Nombre de politiciens qui ont votés"
+msgstr "Aantal politici dat heeft gestemd"
+
+#: core/templates/index.html:83
+msgid "Séances récentes"
+msgstr ""
+
+#: core/templates/index.html:110
+msgid "Pour le futur"
+msgstr "Recente zittingen"
+
+#: core/templates/index.html:114
+msgid "Ajouter des tags sur les points."
+msgstr "Tags toevoegen aan de punten."
+
+#: core/templates/index.html:115
+msgid "Ajouter la possibilité de commenter."
+msgstr "Voeg de mogelijkheid toe om commentaar te geven."
+
+#: core/templates/index.html:116
+msgid "Lier des articles aux points votés."
+msgstr "Koppel artikelen aan gestemde artikelen."
+
+#: core/templates/index.html:117
+msgid ""
+"Rendre possible de mettre un point en avant pour être en page d'accueil."
+msgstr "Maak het mogelijk om een punt naar voren te schuiven om op de startpagina te komen."
+
+#: core/templates/index.html:118
+msgid "Analyser les autres législatures."
+msgstr "Analyseer andere wetgevende machten."
+
+#: core/templates/index.html:119
+msgid "Analyser les autres niveaux de pouvoir."
+msgstr "Analyseer andere niveaus van macht."
+
+#: core/templates/index.html:129
+msgid "Pourquoi ce site ?"
+msgstr "Waarom deze site?"
+
+#: core/templates/index.html:134
+msgid ""
+"Je veux simplement montrer qui a voté pour quoi afin que tout le monde, lors "
+"des élections, puisse facilement avoir accès à ce informations plus "
+"qu'importantes.\n"
+"                                        Ici, vous pouvez voir pour quel "
+"sujet les politiciens ont voté et vous avez la répartition par parti.\n"
+"                                        L'idée est donc simplement d'amener "
+"une information de la manière la plus visible possible.\n"
+"                                        Beaucoup de choses se passent juste "
+"en face de nous, mais les moyens d'y avoir accès sont fastidieux et "
+"découragent vite les gens."
+msgstr ""
+"Ik wil alleen laten zien wie waarvoor heeft gestemd, zodat iedereen bij de verkiezingen gemakkelijk toegang heeft "
+"tot deze zeer belangrijke informatie. Hier kunt u zien wat de politici hebben gestemd en vindt u de verdeling "
+"per partij. Het idee is dus gewoon om informatie op een zo zichtbaar mogelijke manier te brengen. "
+"Er gebeurt van alles recht voor onze neus, maar de middelen om er toegang toe te krijgen zijn omslachtig en "
+"ontmoedigen mensen snel."
+
+#: core/templates/index.html:148
+msgid "Qui suis-je ?"
+msgstr "Wie ben ik?"
+
+#: core/templates/index.html:153
+msgid ""
+"Juste un développeur qui veut s'investir plus dans notre pays. Vous pouvez "
+"me contacter à elalaoui87@gmail.com"
+msgstr "Gewoon een ontwikkelaar die meer betrokken wil raken bij ons land. Je kunt me bereiken op elalaoui87@gmail.com"
+
+#: core/templates/politico/member.html:31
+msgid "A propos"
+msgstr "Over"
+
+#: core/templates/politico/member.html:36
+msgid "Lien vers lachambre.be"
+msgstr "Lien vers dekamer.be"
+
+#: core/templates/politico/member.html:37
+msgid "Mon site web"
+msgstr "Mijn website"
+
+#: core/templates/politico/member.html:38
+#, python-format
+msgid " J'ai voté %(votes_count)s fois "
+msgstr "Ik heb %(votes_count)s keer gestemd"
+
+#: core/templates/politico/member.html:48
+msgid "Informations"
+msgstr "Informatie"
+
+#: core/templates/politico/member.html:57
+#: core/templates/politico/seances.html:35
+msgid "Date"
+msgstr "Datum"
+
+#: core/templates/politico/member.html:58
+#: core/templates/politico/seances.html:36
+msgid "Législature"
+msgstr "Zittingsperiode"
+
+#: core/templates/politico/member.html:59
+#: core/templates/politico/seances.html:37
+msgid "Texte"
+msgstr "Tekst"
+
+#: core/templates/politico/members.html:42
+msgid "Image"
+msgstr "Afbeelding"
+
+#: core/templates/politico/members.html:43
+msgid "Nom"
+msgstr "Naam"
+
+#: core/templates/politico/members.html:44
+msgid "E-mail"
+msgstr "E-mail"
+
+#: core/templates/politico/members.html:45
+msgid "Page sur la chambre.be"
+msgstr "Pagina op dekamer.be"
+
+#: core/templates/politico/members.html:46
+msgid "Website"
+msgstr "Website"
+
+#: core/templates/politico/seance.html:34
+msgid "Point"
+msgstr "Punt"
+
+#: core/templates/politico/seance.html:35 core/templates/politico/vote.html:138
+#: core/templates/politico/vote.html:224
+msgid "Oui"
+msgstr "Ja"
+
+#: core/templates/politico/seance.html:36 core/templates/politico/vote.html:152
+#: core/templates/politico/vote.html:225
+msgid "Non"
+msgstr "Nee"
+
+#: core/templates/politico/seance.html:37 core/templates/politico/vote.html:168
+#: core/templates/politico/vote.html:226
+msgid "Abstention"
+msgstr "Onthouding"
+
+#: core/templates/politico/seances.html:27
+msgid "Séances plénieres"
+msgstr "Plenaire Vergaderingen"
+
+#: core/templates/politico/vote.html:82
+#, python-format
+msgid "Total : %(total)s "
+msgstr "Totaal : %(total)s"
+
+#: core/templates/politico/vote.html:93 core/templates/politico/vote.html:264
+msgid "Articles sur le sujet"
+msgstr "Artikelen over dit onderwerp"
+
+#: core/templates/politico/vote.html:108
+msgid "Votes par parti"
+msgstr "Partij Stemmen"
+
+#: core/templates/politico/vote.html:120
+msgid "Montrer les votes individuels"
+msgstr "Individuele stemmen tonen"
+
+#: core/templates/politico/vote.html:204
+msgid "Pas de vote pour ce point, uniquement des amendements y sont liés."
+msgstr "Over dit punt wordt niet gestemd, er worden alleen amendementen op ingediend."
+
+#: core/templates/politico/vote.html:216
+msgid "Amendements"
+msgstr "Amendementen"
+
+#: core/templates/politico/vote.html:223
+msgid "Amendement"
+msgstr "Amendement"
+
+#~ msgid "Life is life."
+#~ msgstr "No more"

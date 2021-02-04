@@ -31,3 +31,8 @@ staticfiles/*
 core/settings.py
 
 .script_google_article.py
+.script_parti_creation.py
+.script_politicien_creation.py
+.script_seances_creation.py
+.script_set_parti_for_voter_without_parti.py
+.script_vote_scraping.py

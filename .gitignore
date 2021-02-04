@@ -29,3 +29,5 @@ staticfiles/*
 # Specific files #
 ##################
 core/settings.py
+
+.script_google_article.py

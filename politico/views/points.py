@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle
 import json
 from django.utils import translation
 from ..forms import ProposeArticleForm
@@ -111,14 +111,23 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     form = ProposeArticleForm(request.POST or None)
 
     msg = None
+    success = -1
     if request.method == "POST":
 
         if form.is_valid():
+
+
             article_url = form.cleaned_data.get("article_url")
             msg = gettext("Merci d'avoir soumis un article.")
+            if is_amendement == 0:
+                pa = ProposedArticle(voting_point=voting_point, link_url=article_url)
+            else:
+                pa = ProposedArticle(voting_point=voting_point_of_amendement,link_url=article_url)
+            pa.save()
+            success = 1
         else:
-            print("form not valid")
-            msg = gettext("Erreur avec le Captcha.")
+            success = 0
+            msg = gettext("Erreur.")
 
 
     return render(request, 'politico/vote.html', {'seance': seance,
@@ -132,4 +141,5 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'segment': 'seances',
                                                   'voting_point_of_amendement': voting_point_of_amendement,
                                                   'form': form,
-                                                  'msg': msg})
+                                                  'msg': msg,
+                                                  'success':success})

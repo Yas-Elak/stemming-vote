@@ -309,44 +309,55 @@
 
                 {% endif %}
 
-                  {% if user.is_authenticated %}
-                    <div class="row">
-                        <div class="col-md-3 col-sm-12">
-                            <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <li><a class="nav-link text-left active" id="v-pills-article-tab" data-toggle="pill" href="#v-pills-article" role="tab" aria-controls="v-pills-article" aria-selected="true">{% trans "Proposer un article" %}</a></li>
-                                <li><a class="nav-link text-left" id="v-pills-tag-tab" data-toggle="pill" href="#v-pills-tag" role="tab" aria-controls="v-pills-tag" aria-selected="false">{% trans "Proposer un tag" %} </a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-9 col-sm-12">
-                            <div class="tab-content" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-article" role="tabpanel" aria-labelledby="v-pills-article-tab">
-                                   <form>
-                                         {% csrf_token %}
+                {% if user.is_authenticated %}
+                <div>
+                    {% if success == 1 %}
+                    <div class="alert alert-success" role="alert">
+                        {{ msg }}
+                    </div>
+                    {% elif success == 0 %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ msg }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <li><a class="nav-link text-left active" id="v-pills-article-tab" data-toggle="pill" href="#v-pills-article" role="tab" aria-controls="v-pills-article" aria-selected="true">{% trans "Proposer un article" %}</a></li>
+                            <li><a class="nav-link text-left" id="v-pills-tag-tab" data-toggle="pill" href="#v-pills-tag" role="tab" aria-controls="v-pills-tag" aria-selected="false">{% trans "Proposer un tag" %} </a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-article" role="tabpanel" aria-labelledby="v-pills-article-tab">
+                                <form method="post">
+                                    {% csrf_token %}
 
-                                            <div class="form-group">
-                                                {{ form.article_url|as_crispy_field }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ form.captcha }}
-                                            </div>
-                                        <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
-                                        </form>
-                                </div>
-                                <div class="tab-pane fade" id="v-pills-tag" role="tabpanel" aria-labelledby="v-pills-tag-tab">
-                                     <form>
-                                         {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ form.article_url|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.captcha }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-tag" role="tabpanel" aria-labelledby="v-pills-tag-tab">
+                                <form method="post">
+                                    {% csrf_token %}
 
-                                            <div class="form-group">
-                                                {{ form.article_url|as_crispy_field }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ form.captcha }}
-                                            </div>
-                                        <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
-                                        </form>
-                                </div>
+                                    <div class="form-group">
+                                        {{ form.article_url|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.captcha }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                </form>
                             </div>
                         </div>
+                    </div>
                 </div>
                 {% endif %}
 

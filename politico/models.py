@@ -67,3 +67,7 @@ class LinkArticle(models.Model):
     relevance = models.IntegerField(default=1, null=False)
     language = models.CharField(max_length=2)
 
+class ProposedArticle(models.Model):
+    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
+    link_url = models.TextField(null=False)
+

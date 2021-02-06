@@ -74,6 +74,8 @@
                     </div>
                 </div>
                 {% if total != -1 %}
+
+
                 <!-- this means we have a voting point for this point and not only amendemant -->
                 <div class="row">
                     <div class="col-xl-5">
@@ -89,11 +91,32 @@
 
                     <div class="col-xl-7">
                         <div class="card">
+
                             <div class="card-header">
-                                <h5>{% trans "Articles sur le sujet" %}</h5>
+                                <h5>{% trans "Articles sur le sujet" %}</h5> <div class="float-right">
+                                <a id="btn-fr" class="label theme-bg text-white f-12">FR</a>
+                                <a id="btn-nl" class="label theme-bg2 text-white f-12">NL</a>
+                            </div>
+
                             </div>
                             <div class="card-block">
-                                <div style="height:300px"></div>
+                                <div style="height:300px">
+                                    <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
+                                        {% for link in voting_point.linkarticle_set.all  %}
+                                        {% if link.language == 'FR' %}
+                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
+                                        {% for link in voting_point.linkarticle_set.all  %}
+                                        {% if link.language == 'NL' %}
+                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -138,10 +161,9 @@
                                                     <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">{% trans "Oui" %}</h3></li>
                                                     {% for voter in parti.1 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
-                                                        <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                        </div>
+                                                        <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>                                                        <div class="image-parent-decision-list">
+                                                        <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                    </div>
                                                     </li>
                                                     {% endfor %}
                                                 </ul>
@@ -152,7 +174,7 @@
                                                     <li class="list-group-item active list-decision-title-cell-no"><h3 class="list-decision-title">{% trans "Non" %}</h3></li>
                                                     {% for voter in parti.2 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
+                                                        <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>
                                                         <div class="image-parent-decision-list">
                                                             <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
                                                         </div>
@@ -168,7 +190,7 @@
                                                     <li class="list-group-item active list-decision-title-cell-abs"><h3 class="list-decision-title">{% trans "Abstention" %}</h3></li>
                                                     {% for voter in parti.3 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        {{ voter.voter_name }}
+                                                        <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>
                                                         <div class="image-parent-decision-list">
                                                             <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
                                                         </div>
@@ -233,12 +255,12 @@
                                             <td>
                                                 <a href="/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/">
                                                     <p>
-                                                    {% if LANGUAGE_CODE == 'fr' %}
-                                                    {{ amendement.title_fr }}
-                                                    {% else %}
-                                                    {{ amendement.title_nl }}
-                                                    {% endif %}
-                                                </p>
+                                                        {% if LANGUAGE_CODE == 'fr' %}
+                                                        {{ amendement.title_fr }}
+                                                        {% else %}
+                                                        {{ amendement.title_nl }}
+                                                        {% endif %}
+                                                    </p>
                                                 </a>
                                             </td>
                                             <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
@@ -343,6 +365,32 @@ $(document).ready(function() {
     });
     // [ bar-stacked ] chart end
         }, 700);
+});
+</script>
+
+
+<script>
+
+
+$(window).on('load', function() {
+    $("#btn-fr" ).click(function() {
+            $("#ul-nl").hide();
+            $("#ul-fr").show();
+    });
+
+    $("#btn-nl" ).click(function() {
+            $("#ul-fr").hide();
+            $("#ul-nl").show();
+    });
+
+    if($("#ul-fr").hasClass('show-lg')){
+        $("#ul-nl").hide();
+    };
+
+    if($("#ul-nl").hasClass('show-lg')){
+        $("#ul-fr").hide();
+    };
+
 });
 </script>
 

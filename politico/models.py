@@ -63,7 +63,7 @@ class Vote(models.Model):
 
 class LinkArticle(models.Model):
     voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
-    link_url = models.URLField(null=False)
+    link_url = models.TextField(null=False)
     relevance = models.IntegerField(default=1, null=False)
     language = models.CharField(max_length=2)
 

@@ -37,3 +37,7 @@ width: 70%;
 
 
 svg { overflow: visible !important; }
+
+#btn-fr, #btn-nl{
+cursor: pointer;
+}

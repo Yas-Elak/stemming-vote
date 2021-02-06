@@ -115,14 +115,14 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     if request.method == "POST":
 
         if form.is_valid():
-
+            current_user = request.user
 
             article_url = form.cleaned_data.get("article_url")
             msg = gettext("Merci d'avoir soumis un article.")
             if is_amendement == 0:
                 pa = ProposedArticle(voting_point=voting_point, link_url=article_url)
             else:
-                pa = ProposedArticle(voting_point=voting_point_of_amendement,link_url=article_url)
+                pa = ProposedArticle(voting_point=voting_point_of_amendement,link_url=article_url, user=current_user)
             pa.save()
             success = 1
         else:

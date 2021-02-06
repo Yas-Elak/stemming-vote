@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -63,11 +64,19 @@ class Vote(models.Model):
 
 class LinkArticle(models.Model):
     voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
-    link_url = models.TextField(null=False)
+    link_url = models.TextField(null=False, blank=False)
     relevance = models.IntegerField(default=1, null=False)
     language = models.CharField(max_length=2)
 
 class ProposedArticle(models.Model):
     voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
     link_url = models.TextField(null=False)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=35, null=False, blank=False)
+    voting_point = models.ManyToManyField(VotingPoint, null=True)
+    amendement = models.ManyToManyField(Amendement, null=True)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 

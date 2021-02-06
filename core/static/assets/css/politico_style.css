@@ -4,6 +4,20 @@ td {
 
 }
 
+.theme-bg2{
+    background: linear-gradient(-135deg, #FD706B 0%, #C23A22 100%) !important;
+    color: #585858 !important;
+}
+
+.theme-bg{
+    background: linear-gradient(-135deg, #FFFB05 0%, #FFB805 100%) !important;
+    color: #585858 !important;
+}
+
+
+h1 { font-size: 1.3em; }
+h2 { font-size: 1.1em; }
+
 .td-voted{
 width: 70%;
 }

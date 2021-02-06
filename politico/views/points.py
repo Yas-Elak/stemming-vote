@@ -1,9 +1,12 @@
+from itertools import chain
+
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag
 import json
 from django.utils import translation
-from ..forms import ProposeArticleForm
+from ..forms import ProposeArticleForm, ProposeTagForm
 from django.utils.translation import gettext
 
 
@@ -14,7 +17,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     decisions_by_parti = []
     voting_point_of_amendement = None
     cur_language = translation.get_language()
-
+    success = -1
     seance = Seance.objects.get(id=seance_id)
     if cur_language == 'fr':
         seance.seance_name = (seance.seance_name).split('/')[0]
@@ -108,28 +111,69 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
             else:
                 decisions_by_parti[parti_index][3].append(vote.voter)
 
-    form = ProposeArticleForm(request.POST or None)
+    form_article = ProposeArticleForm(request.POST or None)
+    form_tag = ProposeTagForm(request.POST or None)
 
     msg = None
-    success = -1
-    if request.method == "POST":
 
-        if form.is_valid():
-            current_user = request.user
+    if 'article_submit' in request.POST:
 
-            article_url = form.cleaned_data.get("article_url")
-            msg = gettext("Merci d'avoir soumis un article.")
-            if is_amendement == 0:
-                pa = ProposedArticle(voting_point=voting_point, link_url=article_url)
+        if request.method == "POST":
+            if form_article.is_valid():
+                current_user = request.user
+                article_url = form_article.cleaned_data.get("article_url")
+                msg = gettext("Merci d'avoir soumis un article.")
+                if is_amendement == 0:
+                    pa = ProposedArticle(voting_point=voting_point, link_url=article_url, user=current_user)
+                else:
+                    pa = ProposedArticle(voting_point=voting_point_of_amendement, link_url=article_url, user=current_user)
+                pa.save()
+                success = 1
             else:
-                pa = ProposedArticle(voting_point=voting_point_of_amendement,link_url=article_url, user=current_user)
-            pa.save()
-            success = 1
+                success = 0
+                msg = gettext("Erreur.")
+
+    else:
+
+        if form_tag.is_valid():
+            try:
+                current_user = request.user
+                tag_name = form_tag.cleaned_data.get("tag_name")
+                msg = gettext("Merci d'avoir soumis un tag.")
+                if is_amendement == 0:
+                    tag = Tag.objects.create(name=tag_name.lower(), user=current_user)
+                    tag.voting_point.add(voting_point)
+                else:
+                    tag = Tag.objects.create(name=tag_name.lower(), user=current_user)
+                    tag.voting_point.add(voting_point_of_amendement)
+                    tag.amendement.add(voting_point)
+                success = 1
+            except IntegrityError as e:
+                success = 1
+                tag = Tag.objects.get(name=tag_name)
+                if is_amendement == 0:
+                    tag.voting_point.add(voting_point)
+                else:
+                    tag.voting_point.add(voting_point_of_amendement)
+                    tag.amendement.add(voting_point)
+                msg = gettext("Le tag existe déjà, il est maintenant lié à ce point.")
+
         else:
             success = 0
+            print("here")
             msg = gettext("Erreur.")
 
+    tags = Tag.objects.filter(voting_point__id=voting_point.id)
+    tags_amendement = []
+    if is_amendement == 1:
+        tags_amendement = Tag.objects.filter(amendement__id=voting_point.id)
 
+    all_tags = chain(tags, tags_amendement)
+
+    if request.method == 'GET':
+        success= -1
+
+    print(str(request.method))
     return render(request, 'politico/vote.html', {'seance': seance,
                                                   'voting_point': voting_point,
                                                   'total_vote': voting_point_total_vote,
@@ -140,6 +184,8 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'is_amendement': is_amendement,
                                                   'segment': 'seances',
                                                   'voting_point_of_amendement': voting_point_of_amendement,
-                                                  'form': form,
+                                                  'form_article': form_article,
+                                                  'form_tag': form_tag,
                                                   'msg': msg,
-                                                  'success':success})
+                                                  'success':success,
+                                                  'tags':all_tags})

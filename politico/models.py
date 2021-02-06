@@ -75,7 +75,7 @@ class ProposedArticle(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=35, null=False, blank=False)
+    name = models.CharField(max_length=35, null=False, blank=False, unique=True)
     voting_point = models.ManyToManyField(VotingPoint, null=True)
     amendement = models.ManyToManyField(Amendement, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

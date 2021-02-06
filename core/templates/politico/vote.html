@@ -25,10 +25,20 @@
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-5">
                         <div class="card">
                             <div class="card-header">
                                 <h5>{{ seance.seance_name }} - {{ seance.seance_date|date:'d/m/Y' }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="card">
+                            <div class="card-header">
+                                Tags:
+                                {% for tag in tags %}
+                                <a id="" class="label theme-bg text-white f-12">{{tag.name}}</a>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -40,12 +50,13 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                {% if LANGUAGE_CODE == 'fr' %}
-                                {{ voting_point_of_amendement.point_title_fr }}
-                                {% else %}
-                                {{ voting_point_of_amendement.point_title_nl }}
-                                {% endif %}
-
+                                <h1>
+                                    {% if LANGUAGE_CODE == 'fr' %}
+                                    {{ voting_point_of_amendement.point_title_fr }}
+                                    {% else %}
+                                    {{ voting_point_of_amendement.point_title_nl }}
+                                    {% endif %}
+                                </h1>
                             </div>
                         </div>
                     </div>
@@ -55,25 +66,27 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                {% if is_amendement == 0 %}
-                                {% if LANGUAGE_CODE == 'fr' %}
-                                {{ voting_point.point_title_fr }}
-                                {% else %}
-                                {{ voting_point.point_title_nl }}
-                                {% endif %}
-                                {% else %}
-                                <!-- could add the point linked to the amendment -->
-                                {% if LANGUAGE_CODE == 'fr' %}
-                                {{ voting_point.title_fr }}
-                                {% else %}
-                                {{ voting_point.title_nl }}
-                                {% endif %}
-                                {% endif %}
-
+                                <h2>
+                                    {% if is_amendement == 0 %}
+                                    {% if LANGUAGE_CODE == 'fr' %}
+                                    {{ voting_point.point_title_fr }}
+                                    {% else %}
+                                    {{ voting_point.point_title_nl }}
+                                    {% endif %}
+                                    {% else %}
+                                    <!-- could add the point linked to the amendment -->
+                                    {% if LANGUAGE_CODE == 'fr' %}
+                                    {{ voting_point.title_fr }}
+                                    {% else %}
+                                    {{ voting_point.title_nl }}
+                                    {% endif %}
+                                    {% endif %}
+                                </h2>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 {% if total != -1 %}
 
 
@@ -100,6 +113,27 @@
                             </div>
 
                             </div>
+                            {% if is_amendement == 1 %}
+                            <div class="card-block">
+                                <div style="height:300px">
+                                    <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
+                                        {% for link in voting_point_of_amendement.linkarticle_set.all  %}
+                                        {% if link.language == 'FR' %}
+                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
+                                        {% for link in voting_point_of_amendement.linkarticle_set.all  %}
+                                        {% if link.language == 'NL' %}
+                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+
+                                </div>
+                            </div>
+                            {% else %}
                             <div class="card-block">
                                 <div style="height:300px">
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
@@ -119,6 +153,7 @@
 
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -162,9 +197,10 @@
                                                     <li class="list-group-item active list-decision-title-cell-yes"><h3 class="list-decision-title">{% trans "Oui" %}</h3></li>
                                                     {% for voter in parti.1 %}
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
-                                                        <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>                                                        <div class="image-parent-decision-list">
-                                                        <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
-                                                    </div>
+                                                        <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>
+                                                        <div class="image-parent-decision-list">
+                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                        </div>
                                                     </li>
                                                     {% endfor %}
                                                 </ul>
@@ -319,6 +355,7 @@
                     <div class="alert alert-danger" role="alert">
                         {{ msg }}
                     </div>
+
                     {% endif %}
                 </div>
                 <div class="row">
@@ -333,14 +370,13 @@
                             <div class="tab-pane fade show active" id="v-pills-article" role="tabpanel" aria-labelledby="v-pills-article-tab">
                                 <form method="post">
                                     {% csrf_token %}
-
                                     <div class="form-group">
-                                        {{ form.article_url|as_crispy_field }}
+                                        {{ form_article.article_url|as_crispy_field }}
                                     </div>
                                     <div class="form-group">
-                                        {{ form.captcha }}
+                                        {{ form_article.captcha }}
                                     </div>
-                                    <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                    <button type="submit" name="article_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
                                 </form>
                             </div>
                             <div class="tab-pane fade" id="v-pills-tag" role="tabpanel" aria-labelledby="v-pills-tag-tab">
@@ -348,12 +384,12 @@
                                     {% csrf_token %}
 
                                     <div class="form-group">
-                                        {{ form.article_url|as_crispy_field }}
+                                        {{ form_tag.tag_name|as_crispy_field }}
                                     </div>
                                     <div class="form-group">
-                                        {{ form.captcha }}
+                                        {{ form_tag.captcha }}
                                     </div>
-                                    <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                    <button type="submit" name="tag_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
                                 </form>
                             </div>
                         </div>

@@ -37,3 +37,4 @@ staticfiles/*
 .script_seances_creation.py
 .script_set_parti_for_voter_without_parti.py
 .script_vote_scraping.py
+.script_discussion_scrapping

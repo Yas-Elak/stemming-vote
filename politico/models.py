@@ -80,3 +80,7 @@ class Tag(models.Model):
     amendement = models.ManyToManyField(Amendement, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
+
+class Discussion(models.Model):
+    text = models.TextField(null=False)
+    voting_point = models.OneToOneField(VotingPoint, on_delete=models.CASCADE)

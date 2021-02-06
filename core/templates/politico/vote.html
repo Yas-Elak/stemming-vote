@@ -246,6 +246,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0"><a href="#!" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">{% trans "Texte de la séance sur ce point" %}</a></h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            {{ discussion.text|linebreaks }}
+                        </div>
+                    </div>
                 </div>
 
 
@@ -340,7 +349,18 @@
                         </div>
                     </div>
                 </div>
+<div  class="accordion" id="accordionExample">
 
+
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0"><a href="#!" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">{% trans "Texte de la séance sur ce point" %}</a></h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            {{ discussion.text|linebreaks }}
+                        </div>
+                    </div>
+                </div>
 
 
                 {% endif %}

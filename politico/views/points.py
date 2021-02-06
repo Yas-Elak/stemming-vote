@@ -19,6 +19,9 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     cur_language = translation.get_language()
     success = -1
     seance = Seance.objects.get(id=seance_id)
+    discussion = ''
+
+
     if cur_language == 'fr':
         seance.seance_name = (seance.seance_name).split('/')[0]
     else:
@@ -29,12 +32,15 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         voting_point = VotingPoint.objects.get(id=votingpoint_id)
         #I got a total vote only if there is no amemdment link to this voting point
         voting_point_total_vote = TotalVote.objects.filter(voting_point=votingpoint_id, amendement__isnull=True).first()
+        discussion = voting_point.discussion
     else:
         #this is the amendement, I use the same var, but the difference is that an amendment has always a vote
         # and not others amendement linked to it
         voting_point = Amendement.objects.get(id=votingpoint_id)
         voting_point_total_vote = TotalVote.objects.filter(amendement=votingpoint_id).first()
         voting_point_of_amendement = voting_point.voting_point
+        discussion = voting_point_of_amendement.discussion
+
 
 
     #got the amendement link to to this point, if the voting point has no vote of his own, then he has amendment
@@ -188,4 +194,5 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'form_tag': form_tag,
                                                   'msg': msg,
                                                   'success':success,
-                                                  'tags':all_tags})
+                                                  'tags':all_tags,
+                                                  'discussion': discussion})

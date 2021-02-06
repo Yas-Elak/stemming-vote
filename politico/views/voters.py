@@ -49,10 +49,19 @@ def detail_voter(request, voter_id):
             seance.seance_name = (seance.seance_name).split('/')[0]
         else:
             seance.seance_name = (seance.seance_name).split('/')[1]
+
+    voted_yes_for =  Vote.objects.filter(voter_id=voter.id, vote_decision=0)
+    voted_no_for = Vote.objects.filter(voter_id=voter.id, vote_decision=1)
+    voted_abs_for = Vote.objects.filter(voter_id=voter.id, vote_decision=2)
+
     return render(request, "politico/member.html", {'voter': voter,
                                                     'votes_count': votes_count,
                                                     'votes': votes,
-                                                    'seances': seances, 'segment': 'membres'})
+                                                    'seances': seances,
+                                                    'voted_yes_for':voted_yes_for,
+                                                    'voted_no_for': voted_no_for,
+                                                    'voted_abs_for': voted_abs_for,
+                                                    'segment': 'membres'})
 
 
 def change_url_to_nl(voters):

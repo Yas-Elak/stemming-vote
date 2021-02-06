@@ -1,10 +1,13 @@
 {% extends "layouts/base.html" %}
+{% load staticfiles %}
 {% load i18n %}
-
 {% block title %} Députés / Parlementslid {% endblock %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/politico_style.css' %}">
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -27,7 +30,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="card">
-                             <div class="card-header">
+                            <div class="card-header">
                                 <h5>{% trans "A propos" %}</h5>
                             </div>
                             <div class="card-block">
@@ -48,35 +51,140 @@
                                 <h5>{% trans "Informations" %}</h5>
                             </div>
                             <div class="card-block">
-                               <div class="card-block table-border-style">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                              <th>{% trans "Séances" %}</th>
-                                                <th>{% trans "Date" %}</th>
-                                                <th>{% trans "Législature" %}</th>
-                                                <th>{% trans "Texte" %}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active text-uppercase" id="seances-tab" data-toggle="tab" href="#seances" role="tab" aria-controls="seances" aria-selected="true">{% trans "J'ai participé à:" %}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" id="voted-yes-tab" data-toggle="tab" href="#voted-yes" role="tab" aria-controls="voted-yes" aria-selected="false">{% trans "J'ai voté oui pour:" %}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" id="voted-no-tab" data-toggle="tab" href="#voted-no" role="tab" aria-controls="voted-no" aria-selected="false">{% trans "J'ai voté non pour:" %}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" id="voted-abs-tab" data-toggle="tab" href="#voted-abs" role="tab" aria-controls="voted-abs" aria-selected="false">{% trans "J'ai voté abstention pour:" %}</a>
+                                    </li>
+                                </ul>
 
-                                        {% for seance in seances %}
-                                            <tr>
-                                                 <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
-                                                <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
-                                                <td>{{ seance.seance_legislature }}</td>
-                                                <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"/></td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
+                                <div class="tab-content" id="myTabContent">
+
+                                    <div class="tab-pane fade show active" id="seances" role="tabpanel" aria-labelledby="seances-tab">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-seance">
+                                                <thead>
+                                                <tr>
+                                                    <th>{% trans "Séances" %}</th>
+                                                    <th>{% trans "Date" %}</th>
+                                                    <th>{% trans "Législature" %}</th>
+                                                    <th>{% trans "Texte" %}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for seance in seances %}
+                                                <tr>
+                                                    <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
+                                                    <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
+                                                    <td>{{ seance.seance_legislature }}</td>
+                                                    <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"/></a></td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="voted-yes" role="tabpanel" aria-labelledby="voted-yes-tab">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-seance">
+                                                <thead>
+                                                <tr>
+                                                    <th>{% trans "Point" %}</th>
+                                                    <th>{% trans "Séance" %}</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for point in voted_yes_for %}
+                                                <tr >
+                                                    {% if point.amendement == None %}
+                                                    <td class="td-voted"><a href="/seance/{{point.seance.id}}/{{ point.voting_point.id }}/0/">{{ point.voting_point.point_title_fr }}</a></td>
+                                                    {% else %}
+                                                    <td class="td-voted"><a href="/seance/{{point.seance.id}}/{{ point.amendement.id }}/1/">{{ point.amendement.title_fr }}</a></td>
+                                                    {% endif %}
+                                                    <td>
+                                                        <a href="/seance/{{ point.seance.id }}/">{{ point.seance.seance_name }}</a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane fade" id="voted-no" role="tabpanel" aria-labelledby="voted-no-tab">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-seance">
+                                                <thead>
+                                                <tr>
+                                                    <th>{% trans "Point" %}</th>
+                                                    <th>{% trans "Séance" %}</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for point in voted_no_for %}
+                                                <tr>
+                                                    {% if point.amendement == None %}
+                                                    <td class="td-voted"><a href="/seance/{{point.seance.id}}/{{ point.voting_point.id }}/0/">{{ point.voting_point.point_title_fr }}</a></td>
+                                                    {% else %}
+                                                    <td class="td-voted"><a href="/seance/{{point.seance.id}}/{{ point.amendement.id }}/1/">{{ point.amendement.title_fr }}</a></td>
+                                                    {% endif %}
+                                                    <td>
+                                                        <a href="/seance/{{ point.seance.id }}/">{{ point.seance.seance_name }}</a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="voted-abs" role="tabpanel" aria-labelledby="voted-abs-tab">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>{% trans "Point" %}</th>
+                                                    <th>{% trans "Séance" %}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for point in voted_abs_for %}
+                                                <tr>
+                                                    {% if point.amendement == None %}
+                                                    <td class="td-voted"><a href="/seance/{{point.seance.id}}/{{ point.voting_point.id }}/0/">{{ point.voting_point.point_title_fr }}</a></td>
+                                                    {% else %}
+                                                    <td class="td-voted"><a href="/seance/{{point.seance.id}}/{{ point.amendement.id }}/1/">{{ point.amendement.title_fr }}</a></td>
+                                                    {% endif %}
+                                                    <td>
+                                                        <a href="/seance/{{ point.seance.id }}/">{{ point.seance.seance_name }}</a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- [ Main Content ] end -->
             </div>

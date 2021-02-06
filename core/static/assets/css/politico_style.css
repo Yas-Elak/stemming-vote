@@ -4,7 +4,9 @@ td {
 
 }
 
-
+.td-voted{
+width: 70%;
+}
 
 .list-decision-title{
     color: white !important;

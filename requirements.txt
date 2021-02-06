@@ -12,3 +12,5 @@ whitenoise
 bs4
 requests
 mysqlclient
+django-recaptcha
+django-crispy-forms

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}
 
+{% load crispy_forms_tags %}
 
 {% block title %} Vote / Stemming {% endblock %}
 
@@ -205,18 +206,13 @@
 
                                     {% endfor %}
 
-
-
-
-
-
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 {% else %}
 
                 <div class="row">
@@ -284,17 +280,75 @@
                         <div class="card">
                             <div class="card-block">
                                 <h5>{% trans "Articles sur le sujet" %}</h5>
+                                <a id="btn-fr" class="label theme-bg text-white f-12">FR</a>
+                                <a id="btn-nl" class="label theme-bg2 text-white f-12">NL</a>
                             </div>
                             <div class="card-block">
-                                <div style="height:300px"></div>
+                                <div style="height:300px">
+                                    <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
+                                        {% for link in voting_point.linkarticle_set.all  %}
+                                        {% if link.language == 'FR' %}
+                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
+                                        {% for link in voting_point.linkarticle_set.all  %}
+                                        {% if link.language == 'NL' %}
+                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
 
+
                 {% endif %}
 
+                  {% if user.is_authenticated %}
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <li><a class="nav-link text-left active" id="v-pills-article-tab" data-toggle="pill" href="#v-pills-article" role="tab" aria-controls="v-pills-article" aria-selected="true">{% trans "Proposer un article" %}</a></li>
+                                <li><a class="nav-link text-left" id="v-pills-tag-tab" data-toggle="pill" href="#v-pills-tag" role="tab" aria-controls="v-pills-tag" aria-selected="false">{% trans "Proposer un tag" %} </a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 col-sm-12">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="v-pills-article" role="tabpanel" aria-labelledby="v-pills-article-tab">
+                                   <form>
+                                         {% csrf_token %}
+
+                                            <div class="form-group">
+                                                {{ form.article_url|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.captcha }}
+                                            </div>
+                                        <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                        </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-tag" role="tabpanel" aria-labelledby="v-pills-tag-tab">
+                                     <form>
+                                         {% csrf_token %}
+
+                                            <div class="form-group">
+                                                {{ form.article_url|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.captcha }}
+                                            </div>
+                                        <button type="submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                        </form>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                {% endif %}
 
                 <!-- [ Main Content ] end -->
             </div>
@@ -393,5 +447,6 @@ $(window).on('load', function() {
 
 });
 </script>
+
 
 {% endblock javascripts %}

@@ -1,4 +1,5 @@
 {% extends "layouts/base-fullscreen.html" %}
+{% load i18n %}
 
 {% block title %} Login {% endblock %}
 
@@ -17,13 +18,13 @@
                     <div class="mb-4">
                         <i class="feather icon-unlock auth-icon"></i>
                     </div>
-                    <h3 class="mb-4">Login</h3>
+                    <h3 class="mb-4">{% trans "Se connecter" %}</h3>
 
                     <span class="mb-0 text-muted">
                         {% if msg %}
                             {{ msg | safe }}
                         {% else %}
-                            Add your credentials
+                            {% trans "Ajouter vos identifiants" %}
                         {% endif %} 
                     </span>
 
@@ -45,19 +46,15 @@
                         <div class="form-group text-left">
                             <div class="checkbox checkbox-fill d-inline">
                                 <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-                                <label for="checkbox-fill-a1" class="cr"> Save Details</label>
+                                <label for="checkbox-fill-a1" class="cr">{% trans "Sauvegarder les identifiants" %}</label>
                             </div>
                         </div>
-                        <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">Login</button>
+                        <button type="submit" name="login" class="btn btn-warning shadow-2 mb-4">{% trans "Se connecter" %}</button>
 
                     </form>
 
-                    <p class="mb-0 text-muted">Don’t have an account? <a href="{% url 'register' %}" >Sign UP</a></p>
+                    <p class="mb-0 text-muted">{% trans "Pas encore de compte ?" %} <a href="{% url 'register' %}" >{% trans "S'enregistrer" %}</a></p>
                     <br />
-                    <p class="mb-2 text-muted">
-                        &copy; <a target="_blank" href="https://bit.ly/37fF9RT">CodedThemes</a> 
-                        - <a target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-dattaable">Django Datta Able</a>.
-                    </p>
                 </div>
             </div>
         </div>

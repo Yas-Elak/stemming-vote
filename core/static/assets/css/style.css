@@ -7081,7 +7081,7 @@ select.form-control-lg:not([size]):not([multiple]) {
 .checkbox.checkbox-fill input[type=checkbox]:checked + .cr:before {
   opacity: 1;
   background: transparent;
-  color: #1dd5d2;
+  color: #FFA505;
   border-color: transparent;
 }
 .checkbox.checkbox-primary input[type=checkbox]:checked + .cr:before {
@@ -7457,7 +7457,7 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
   font-size: 30px;
 }
 .auth-wrapper .auth-icon:before {
-  background: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
+  background: linear-gradient(-135deg, #FD706B 0%, #C23A22 100%);
   background-clip: text;
   text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -7478,12 +7478,12 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
 .auth-wrapper .auth-bg .r:first-child {
   top: -100px;
   right: -100px;
-  background: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
+  background: linear-gradient(-135deg, #FD706B 0%, #C23A22 100%);
 }
 .auth-wrapper .auth-bg .r:last-child {
   left: -100px;
   bottom: -100px;
-  background: linear-gradient(-135deg, #899FD4 0%, #A389D4 100%);
+  background: linear-gradient(-135deg, #FFFB05 0%, #FFB805 100%);
 }
 .auth-wrapper .auth-bg .r.s {
   width: 20px;
@@ -7492,12 +7492,12 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
 .auth-wrapper .auth-bg .r.s:nth-child(2) {
   top: 150px;
   right: -150px;
-  background: #04a9f5;
+  background: #000;
 }
 .auth-wrapper .auth-bg .r.s:nth-child(3) {
   left: -150px;
   bottom: 150px;
-  background: #1de9b6;
+  background: #000;
 }
 .auth-wrapper .auth-bg .r:nth-child(odd) {
   -webkit-animation: floating 7s infinite;

@@ -384,15 +384,16 @@
 
                 {% endif %}
 
-                {% if user.is_authenticated %}
-                  <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                  {% load comment_tags %}  {# Loading the template tag #}
-                {% render_comments voting_point request %}
-                                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            {% load comment_tags %}  {# Loading the template tag #}
+                            {% render_comments voting_point request %}
                         </div>
                     </div>
+                </div>
+        {% if user.is_authenticated %}
+
                 <div>
                     {% if success == 1 %}
                     <div class="alert alert-success" role="alert">

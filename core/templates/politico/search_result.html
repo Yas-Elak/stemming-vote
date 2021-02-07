@@ -1,5 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
+
 
 {% block title %} Résultats / Zoekresultaten {% endblock %}
 
@@ -10,6 +12,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
+{% get_current_language as LANGUAGE_CODE %}
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -20,7 +23,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Résultats de la recherche / Zoekresultaten</h5>
+                                <h5>{% trans "Résultats de la recherche" %}</h5>
                             </div>
                             <div class="card-block">
                                 <div class="col-sm-12">
@@ -30,29 +33,26 @@
                                             {% if seances %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseSeance" role="button" aria-expanded="false"
-                                               aria-controls="collapseSeance">Séances / Zittingen</a>
+                                               aria-controls="collapseSeance">{% trans "Séances" %}</a>
                                             {% endif %}
 
                                             {% if voting_points %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseVP" role="button" aria-expanded="false"
-                                               aria-controls="collapseVP">Points / Punten</a>
+                                               aria-controls="collapseVP">{% trans "Points" %}</a>
                                             {% endif %}
 
                                             {% if amendements %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseAmendements" role="button" aria-expanded="false"
-                                               aria-controls="collapseAmendements">Amendements</a>
+                                               aria-controls="collapseAmendements">{% trans "Amendements" %}</a>
                                             {% endif %}
 
                                             {% if members %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseMembres" role="button" aria-expanded="false"
-                                               aria-controls="collapseMembres">Membres / Kamerleden</a>
+                                               aria-controls="collapseMembres">{% trans "Membres" %}</a>
                                             {% endif %}
-
-
-
                                         </div>
                                         {% if seances %}
                                         <div class="collapse" id="collapseSeance">
@@ -61,10 +61,10 @@
                                                     <table class="table table-hover">
                                                         <thead>
                                                         <tr>
-                                                            <th>Séances / Zittingen</th>
-                                                            <th>Date / Datum</th>
-                                                            <th>Législature / Zittingsperiode</th>
-                                                            <th>Texte / Tekst</th>
+                                                            <th>{% trans "Séances" %}</th>
+                                                            <th>{% trans "Date" %}</th>
+                                                            <th>{% trans "Législature" %}</th>
+                                                            <th>{% trans "Texte" %}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -91,52 +91,41 @@
                                                     <table class="table table-hover table-seance">
                                                         <thead>
                                                         <tr>
-                                                            <th>Point / Punt</th>
-                                                            <th>Oui / Ja</th>
-                                                            <th>Non / Nee</th>
-                                                            <th>Abstention / onthouding</th>
+                                                            <th>{% trans "Point" %}</th>
+                                                            <th>{% trans "Oui" %}</th>
+                                                            <th>{% trans "Non" %}</th>
+                                                            <th>{% trans "Abstention" %}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         {% for vp in voting_points  %}
                                                         <tr>
                                                             <td>
-                                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/">
-                                                                    {{ vp.point_title_fr }} <br>-<br>
-                                                                    {{ vp.point_title_nl }}
+                                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
+                                                                    {% if LANGUAGE_CODE == 'fr' %}
+                                                                        {{ vp.point_title_fr }}
+                                                                    {% else %}
+                                                                        {{ vp.point_title_nl }}
+                                                                    {% endif %}
                                                                 </a></td>
                                                             <td>{% if vp.amendement_set.count < 1 %}
-                                                                {{ vp.totalvote_set.first.number_of_oui}}
+                                                                    {{ vp.totalvote_set.first.number_of_oui}}
                                                                 {% endif %}
                                                             </td>
                                                             <td>
                                                                 {% if vp.amendement_set.count < 1 %}
-                                                                {{ vp.totalvote_set.first.number_of_non }}
+                                                                    {{ vp.totalvote_set.first.number_of_non }}
                                                                 {% endif %}
                                                             </td>
                                                             <td>{% if vp.amendement_set.count < 1 %}
-                                                                {{ vp.totalvote_set.first.number_of_abstention }}
+                                                                    {{ vp.totalvote_set.first.number_of_abstention }}
                                                                 {% endif %}</td>
                                                         </tr>
-                                                        {% for amendement in vp.amendement_set.all %}
-                                                        <tr>
-
-                                                            <td>
-                                                                <a href="/seance/{{ amendement.seance_id }}/{{vp.id}}/{{amendement.id}}/"><p style="margin-left:2em">
-                                                                    {{ amendement.title_fr }} <br>-<br>
-                                                                    {{ amendement.title_nl }}
-                                                                </p></a>
-                                                                </p></td>
-                                                            <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
-                                                            <td>{{ amendement.totalvote_set.first.number_of_non }}</td>
-                                                            <td>{{ amendement.totalvote_set.first.number_of_abstention }}</td>
-                                                        </tr>
-                                                        {% endfor %}
-
                                                         {% endfor %}
                                                         </tbody>
                                                     </table>
-                                                </div>                                            </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         {% endif %}
 
@@ -147,10 +136,10 @@
                                                     <table class="table table-hover table-seance">
                                                         <thead>
                                                         <tr>
-                                                            <th>Amendement</th>
-                                                            <th>Oui / Ja</th>
-                                                            <th>Non / Nee</th>
-                                                            <th>Abstention / Onthouding</th>
+                                                            <th>{% trans "Amendement" %}</th>
+                                                            <th>{% trans "Oui" %}</th>
+                                                            <th>{% trans "Non" %}</th>
+                                                            <th>{% trans "Abstention" %}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -158,9 +147,12 @@
                                                         {% for amendement in amendements %}
                                                         <tr>
                                                             <td>
-                                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.voting_point_id}}/{{ amendement.id }}/"><p>
-                                                                    {{ amendement.title_fr }} <br>-<br>
+                                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/"><p>
+                                                                {% if LANGUAGE_CODE == 'fr' %}
+                                                                    {{ amendement.title_fr }}
+                                                                    {% else %}
                                                                     {{ amendement.title_nl }}
+                                                                    {% endif %}
                                                                 </p></a>
                                                                 </p></td>
                                                             <td>{{ amendement.totalvote_set.first.number_of_oui }}</td>
@@ -184,11 +176,11 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th>Photo / Foto</th>
-                                                            <th>Nom / Naam</th>
-                                                            <th>Parti / Partik</th>
-                                                            <th>Email</th>
-                                                            <th>Page / Pagina</th>
+                                                            <th>{% trans "Photo" %}</th>
+                                                            <th>{% trans "Nom" %}</th>
+                                                            <th>{% trans "Parti" %}</th>
+                                                            <th>E-mail</th>
+                                                            <th>{% trans "Page" %}</th>
                                                             <th>website</th>
                                                         </tr>
                                                         </thead>

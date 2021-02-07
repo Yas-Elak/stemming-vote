@@ -24,7 +24,7 @@
                                 <h5>{{ voter.voter_name }}</h5>
                             </div>
                             <div class="card-block  text-center">
-                                <img src="{{ voter.voter_image }}" />
+                                <img class="member_picture" src="{{ voter.voter_image }}" />
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                     <li  class="list-group-item">{{ voter.voter_email }}</li>
                                     <li  class="list-group-item"><a href="{{ voter.voter_url }}">{% trans "Lien vers lachambre.be" %}</a></li>
                                     <li  class="list-group-item"><a href="{{ voter.voter_website }}">{% trans "Mon site web" %}</a></li>
-                                    <li  class="list-group-item">{% blocktrans %} J'ai voté {{ votes_count }} fois {% endblocktrans %} </li>
+                                    <li  class="list-group-item">{% blocktrans %} J'ai voté {{ votes_count }} fois dans la législature 55. {% endblocktrans %} </li>
                                 </ul>
                             </div>
                         </div>
@@ -53,16 +53,16 @@
                             <div class="card-block">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active text-uppercase" id="seances-tab" data-toggle="tab" href="#seances" role="tab" aria-controls="seances" aria-selected="true">{% trans "J'ai participé à:" %}</a>
+                                        <a class="nav-link active text-uppercase" id="seances-tab" data-toggle="tab" href="#seances" role="tab" aria-controls="seances" aria-selected="true">{% trans "Participé à:" %}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="voted-yes-tab" data-toggle="tab" href="#voted-yes" role="tab" aria-controls="voted-yes" aria-selected="false">{% trans "J'ai voté oui pour:" %}</a>
+                                        <a class="nav-link text-uppercase" id="voted-yes-tab" data-toggle="tab" href="#voted-yes" role="tab" aria-controls="voted-yes" aria-selected="false">{% trans "Voté oui pour:" %}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="voted-no-tab" data-toggle="tab" href="#voted-no" role="tab" aria-controls="voted-no" aria-selected="false">{% trans "J'ai voté non pour:" %}</a>
+                                        <a class="nav-link text-uppercase" id="voted-no-tab" data-toggle="tab" href="#voted-no" role="tab" aria-controls="voted-no" aria-selected="false">{% trans "Voté non pour:" %}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="voted-abs-tab" data-toggle="tab" href="#voted-abs" role="tab" aria-controls="voted-abs" aria-selected="false">{% trans "J'ai voté abstention pour:" %}</a>
+                                        <a class="nav-link text-uppercase" id="voted-abs-tab" data-toggle="tab" href="#voted-abs" role="tab" aria-controls="voted-abs" aria-selected="false">{% trans "Voté abstention pour:" %}</a>
                                     </li>
                                 </ul>
 

@@ -56,3 +56,9 @@ svg { overflow: visible !important; }
 #btn-fr, #btn-nl{
 cursor: pointer;
 }
+
+
+.member_picture{
+    max-width: 150 px;
+
+}

@@ -88,6 +88,7 @@ class Tag(models.Model):
     voting_point = models.ManyToManyField(VotingPoint, null=True)
     amendement = models.ManyToManyField(Amendement, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    to_moderate = models.IntegerField(default=1)
 
 
 class Discussion(models.Model):

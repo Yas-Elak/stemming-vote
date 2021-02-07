@@ -36,7 +36,10 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         voting_point = VotingPoint.objects.get(id=votingpoint_id)
         #I got a total vote only if there is no amemdment link to this voting point
         voting_point_total_vote = TotalVote.objects.filter(voting_point=votingpoint_id, amendement__isnull=True).first()
-        discussion = voting_point.discussion
+        try:
+            discussion = voting_point.discussion
+        except:
+            print("quick bad correction for an error 500")
         if UserVote.objects.filter(voting_point_id=voting_point.id, user_id=request.user.id).exists():
             can_vote = 0
         else:

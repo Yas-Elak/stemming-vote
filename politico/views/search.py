@@ -33,6 +33,15 @@ def result(request):
                                                            'members': members,
                                                            'segment': 'search'})
 
+def tag_result(request, tag_name):
+
+    voting_points = VotingPoint.objects.filter(Q(tag__name__icontains=tag_name))
+    amendements = Amendement.objects.filter(Q(tag__name__icontains=tag_name))
+
+    return render(request, "politico/search_result.html", {'segment': 'search',
+                                                           'voting_points': voting_points,
+                                                           'amendements': amendements,
+                                                           })
 
 
 

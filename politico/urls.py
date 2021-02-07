@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('search/', search.index, name='search_index'),
     path('search/result/', search.result, name='search_results'),
+    path('search/result/<str:tag_name>/', search.tag_result, name='search__tag_results'),
 
     path('admin_web/articles/', admin_moderation.index_article, name='admin_mod_articles'),
     path('admin_web/article/<int:article_id>/', admin_moderation.delete_article, name='admin_delete_article'),

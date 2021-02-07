@@ -1,7 +1,8 @@
+from django.db.models import Count
 from django.shortcuts import render
 from django.utils import translation
 
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Voter
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Voter, Tag
 
 def index(request):
 
@@ -19,7 +20,14 @@ def index(request):
     Total_votes_count = TotalVote.objects.all().count()
     total_politiciens = Voter.objects.all().count()
 
+    tags = Tag.objects.annotate(q_count=Count('voting_point')).order_by('-q_count')[:25]
+
+    for t in tags:
+        print(t.name)
     #Législature en cours: 55
 
-    return render(request, "index.html", {'seances': last_sessions,'total_votes_count': Total_votes_count, 'voters': total_politiciens})
+    return render(request, "index.html", {'seances': last_sessions,
+                                          'total_votes_count': Total_votes_count,
+                                          'voters': total_politiciens,
+                                          'tags': tags})
 

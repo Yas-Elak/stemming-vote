@@ -58,18 +58,16 @@
                     </div>
 
                     <div class="col-md-12 col-xl-4">
-                        <div class="card yearly-sales">
+                        <div class="card">
                             <div class="card-block">
-                                <h6 class="mb-4">{% trans "Nombre de politiciens qui ont votés" %}</h6>
+                                <h6 class="mb-4">{% trans "Tags les plus populaires" %}</h6>
                                 <div class="row d-flex align-items-center">
-                                    <div class="col-9">
-                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-user text-c-green f-30 m-r-10"></i>{{ voters }}</h3>
+                                    <div class="col-12">
+                                        {% for tag in tags %}
+                                        <a href="/search/result/{{ tag.name }}"  ><span style="margin-bottom:13px;">{{tag.name}}</span></a>
+
+                                        {% endfor %}
                                     </div>
-                                    <div class="col-3 text-right">
-                                    </div>
-                                </div>
-                                <div class="progress m-t-30" style="height: 7px;">
-                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +139,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-xl-4">
-                       <div class="card">
+                        <div class="card">
                             <div class="card-block border-bottom">
                                 <div class="row align-items-center justify-content-center">
                                     <h3>{% trans "Qui suis-je ?" %}</h3>

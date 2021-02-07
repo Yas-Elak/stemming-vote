@@ -82,7 +82,10 @@
                     <label>Admin</label>
                 </li>
                 <li class="nav-item {% if 'admin_article' in segment %} active {% endif %}">
-                    <a href="/admin_web/articles/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">{% trans "Articles" %}</span></a>
+                    <a href="/admin_web/articles/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Articles</span></a>
+                </li>
+                 <li class="nav-item {% if 'admin_tag' in segment %} active {% endif %}">
+                    <a href="/admin_web/tags/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Tags</span></a>
                 </li>
 
                 {% endif %}

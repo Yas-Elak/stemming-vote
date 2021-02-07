@@ -26,6 +26,9 @@ urlpatterns = [
     path('admin_web/articles/', admin_moderation.index_article, name='admin_mod_articles'),
     path('admin_web/article/<int:article_id>/', admin_moderation.delete_article, name='admin_delete_article'),
     path('admin_web/article/<int:article_id>/<str:lang>/', admin_moderation.add_article, name='admin_add_article'),
+    path('admin_web/tags/', admin_moderation.index_tag, name='admin_mod_tag'),
+    path('admin_web/tag/<int:tag_id>/', admin_moderation.delete_tag, name='admin_delete_tag'),
+    path('admin_web/tag/<int:tag_id>/add/', admin_moderation.add_tag, name='admin_add_tag'),
 
     path('seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/<int:result>/', points.user_vote, name="voting_point_user_vote"),
 

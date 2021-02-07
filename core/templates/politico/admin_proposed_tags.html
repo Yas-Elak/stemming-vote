@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load staticfiles %}
 
-{% block title %} Admin proposed articles {% endblock %}
+{% block title %} Admin proposed tags {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
@@ -32,21 +32,17 @@
                                         <table class="table table-hover table-seance">
                                             <thead>
                                             <tr>
-                                                <th>Article</th>
-                                                <th>Point</th>
-                                                <th><i class="feather icon-check"></i> FR</th>
-                                                <th><i class="feather icon-check"></i> NL</th>
+                                                <th>Tag</th>
+                                                <th><i class="feather icon-check"></i>Add</th>
                                                 <th><i class="feather icon-trash"></i></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% for article in articles %}
+                                            {% for tag in tags %}
                                             <tr>
-                                                <td><a href="{{ article.link_url }}">{{ article.link_url }}</a></td>
-                                                <td><a href="/seance/{{article.voting_point.seance_id}}/{{ article.voting_point.id }}/0/">{{ article.voting_point.point_title_fr}}</a></td>
-                                                <td><a href="/admin_web/article/{{ article.id }}/FR/"><i class="feather icon-check"></i></a></td>
-                                                <td><a href="/admin_web/article/{{ article.id }}/NL/"><i class="feather icon-check"></i></a></td>
-                                                <td><a href="/admin_web/article/{{ article.id }}/" ><i class="fa fa-trash"></i></a></td>
+                                                <td>{{ tag.name }}</td>
+                                                <td><a href="/admin_web/tag/{{ tag.id }}/add/"><i class="feather icon-check"></i></a></td>
+                                                <td><a href="/admin_web/tag/{{ tag.id }}/" ><i class="fa fa-trash"></i></a></td>
                                             </tr>
                                             {% endfor %}
                                             </tbody>

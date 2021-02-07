@@ -1,9 +1,14 @@
 {% extends "layouts/base.html" %}
 {% load i18n %}
 {% block title %} Dashboard {% endblock %}
+{% load staticfiles %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/politico_style.css' %}">
+
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -74,8 +79,57 @@
                     </div>
 
 
-                    <div class="col-xl-8 col-md-6">
-                        <div class="card Recent-Users">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>{% trans "Points mis en avant par les utilisateurs" %}</h5>
+                            </div>
+                            <div class="card-block table-border-style">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-seance">
+                                        <thead>
+                                        <tr>
+                                            <th>{% trans "Point" %}</th>
+                                            <th>{% trans "Oui" %}</th>
+                                            <th>{% trans "Non" %}</th>
+                                            <th>{% trans "Abstention" %}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for vp in voting_points_by_count  %}
+                                        <tr>
+                                            <td>
+                                                <!--  0 in the url because it is not an amendment but a point-->
+                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
+                                                    {% if LANGUAGE_CODE == 'fr' %}
+                                                        {{ vp.point_title_fr }}
+                                                    {% else %}
+                                                    {{ vp.point_title_nl }}
+                                                    {% endif %}
+                                                </a></td>
+                                            <td>{% if vp.amendement_set.count < 1 %}
+                                                {{ vp.totalvote_set.first.number_of_oui}}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if vp.amendement_set.count < 1 %}
+                                                {{ vp.totalvote_set.first.number_of_non }}
+                                                {% endif %}
+                                            </td>
+                                            <td>{% if vp.amendement_set.count < 1 %}
+                                                {{ vp.totalvote_set.first.number_of_abstention }}
+                                                {% endif %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="card">
                             <div class="card-header">
                                 <h5>{% trans "Séances récentes" %}</h5>
                             </div>
@@ -95,26 +149,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-md-6">
-                        <div class="card card-event">
-                            <div class="card-block">
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col">
-                                        <h5 class="m-0">{% trans "Pour le futur" %}</h5>
-                                    </div>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">{% trans "Ajouter des tags sur les points." %}</li>
-                                    <li class="list-group-item">{% trans "Ajouter la possibilité de commenter." %}</li>
-                                    <li class="list-group-item">{% trans "Lier des articles aux points votés." %}</li>
-                                    <li class="list-group-item">{% trans "Rendre possible de mettre un point en avant pour être en page d'accueil." %}</li>
-                                    <li class="list-group-item">{% trans "Analyser les autres législatures." %}</li>
-                                    <li class="list-group-item">{% trans "Analyser les autres niveaux de pouvoir." %}</li>
-                                </ul>
                             </div>
                         </div>
                     </div>

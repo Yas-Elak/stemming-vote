@@ -1,6 +1,7 @@
 from django.db.models import Count
 from django.shortcuts import render
 from django.utils import translation
+from comment.models import Comment
 
 from ..models import Seance, VotingPoint, Amendement, TotalVote, Voter, Tag
 
@@ -27,9 +28,14 @@ def index(request):
 
     #Législature en cours: 55
 
+    #want to show the x last comments
+    last_comments = Comment.objects.all().order_by('-id')[:5]
+
+
     return render(request, "index.html", {'seances': last_sessions,
                                           'total_votes_count': Total_votes_count,
                                           'voters': total_politiciens,
                                           'tags': tags,
-                                          'voting_points_by_count':voting_points_by_count})
+                                          'voting_points_by_count':voting_points_by_count,
+                                          'last_comments': last_comments})
 

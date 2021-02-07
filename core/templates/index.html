@@ -23,62 +23,6 @@
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
                 <div class="row">
-                    <div class="col-md-6 col-xl-4">
-                        <div class="card daily-sales">
-                            <div class="card-block">
-                                <h6 class="mb-4">{% trans "Nombre de séances analysées" %}</h6>
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-9">
-                                        <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-file-text text-c-green f-30 m-r-10"></i>84</h3>
-                                    </div>
-
-                                    <div class="col-3 text-right">
-                                        <p class="m-b-0"></p>
-                                    </div>
-                                </div>
-                                <div class="progress m-t-30" style="height: 7px;">
-                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-4">
-                        <div class="card Monthly-sales">
-                            <div class="card-block">
-                                <h6 class="mb-4">{% trans "Nombre de votes passés" %}</h6>
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-9">
-                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-mail text-c-red f-30 m-r-10"></i>{{ total_votes_count }}</h3>
-                                    </div>
-                                    <div class="col-3 text-right">
-                                        <p class="m-b-0"></p>
-                                    </div>
-                                </div>
-                                <div class="progress m-t-30" style="height: 7px;">
-                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 col-xl-4">
-                        <div class="card">
-                            <div class="card-block">
-                                <h6 class="mb-4">{% trans "Tags les plus populaires" %}</h6>
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-12">
-                                        {% for tag in tags %}
-                                        <a href="/search/result/{{ tag.name }}"  ><span style="margin-bottom:13px;">{{tag.name}}</span></a>
-
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                     <div class="col-xl-8">
                         <div class="card">
                             <div class="card-header">
@@ -102,7 +46,7 @@
                                                 <!--  0 in the url because it is not an amendment but a point-->
                                                 <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
                                                     {% if LANGUAGE_CODE == 'fr' %}
-                                                        {{ vp.point_title_fr }}
+                                                    {{ vp.point_title_fr }}
                                                     {% else %}
                                                     {{ vp.point_title_nl }}
                                                     {% endif %}
@@ -139,7 +83,7 @@
                                         <tbody>
                                         {% for seance in seances %}
                                         <tr>
-                                            <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
+                                            <td><a href="/seance/{{comment.seance_id}}/{{ vp.id }}/0/">{{ seance.seance_name }}</a></td>
                                             <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
                                             <td>{{ seance.seance_legislature }}</td>
                                             <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"></i></a></td>
@@ -152,7 +96,50 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="card"><div class="card-header">
+                                <h5>{% trans "Derniers commentaires" %}</h5>
+                            </div>
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        {% for comment in last_comments %}
+                                        <tr>
+                                            <td><a href="/redirect_from_comment/{{comment.id}}/">{{ comment.content }}</a></td>
+                                        </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-block">
+                                <h6 class="mb-4">{% trans "Tags les plus populaires" %}</h6>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-12">
+                                        {% for tag in tags %}
+                                        <a href="/search/result/{{ tag.name }}"  ><span style="margin-bottom:13px;">{{tag.name}}</span></a>
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
                     <div class="col-md-12 col-xl-8">
                         <div class="card">
                             <div class="card-block border-bottom">

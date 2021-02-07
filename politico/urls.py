@@ -32,6 +32,8 @@ urlpatterns = [
 
     path('seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/<int:result>/', points.user_vote, name="voting_point_user_vote"),
 
+    path('redirect_from_comment/<int:comment_id>/', points.redirect_from_comment, name="redirect_from_comment"),
+
 ]
 
 

@@ -2885,13 +2885,13 @@ p.text-muted {
     padding-right: 60px;
   }
 
-  .pcoded-navbar {
+  /*.pcoded-navbar {
     margin-left: -264px;
     position: absolute;
     height: 100%;
     -webkit-box-shadow: none;
             box-shadow: none;
-  }
+  }*/
   .pcoded-navbar .scroll-div.navbar-content {
     height: 100%;
   }

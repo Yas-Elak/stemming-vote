@@ -11,5 +11,6 @@ urlpatterns = i18n_patterns(
     path("", include("authentication.urls")), # Auth routes - login / register
     path("", include("app.urls")),          # UI Kits Html files
     path("", include("politico.urls")),  # Routes for politico
+    path('comment/', include('comment.urls')),
 
 )

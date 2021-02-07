@@ -1,3 +1,5 @@
+from comment.models import Comment
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -17,6 +19,8 @@ class VotingPoint(models.Model):
     point_title_fr = models.TextField(null=True)
     users_vote_count = models.IntegerField(default=0)
     users_last_vote_date = models.DateField(null=True)
+    comments = GenericRelation(Comment)
+
 
 
 class Amendement(models.Model):
@@ -26,6 +30,8 @@ class Amendement(models.Model):
     title_fr = models.TextField(null=True)
     users_vote_count = models.IntegerField(default=0)
     users_last_vote_date = models.DateField(null=True)
+    comments = GenericRelation(Comment)
+
 
 class UserVote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

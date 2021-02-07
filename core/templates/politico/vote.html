@@ -385,6 +385,14 @@
                 {% endif %}
 
                 {% if user.is_authenticated %}
+                  <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                  {% load comment_tags %}  {# Loading the template tag #}
+                {% render_comments voting_point request %}
+                                </div>
+                        </div>
+                    </div>
                 <div>
                     {% if success == 1 %}
                     <div class="alert alert-success" role="alert">
@@ -412,9 +420,6 @@
                                     <div class="form-group">
                                         {{ form_article.article_url|as_crispy_field }}
                                     </div>
-                                    <div class="form-group">
-                                        {{ form_article.captcha }}
-                                    </div>
                                     <button type="submit" name="article_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
                                 </form>
                             </div>
@@ -425,9 +430,6 @@
                                     <div class="form-group">
                                         {{ form_tag.tag_name|as_crispy_field }}
                                     </div>
-                                    <div class="form-group">
-                                        {{ form_tag.captcha }}
-                                    </div>
                                     <button type="submit" name="tag_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
                                 </form>
                             </div>
@@ -435,6 +437,11 @@
                     </div>
                 </div>
                 {% endif %}
+
+
+
+
+
 
                 <!-- [ Main Content ] end -->
             </div>

@@ -15,6 +15,8 @@ class VotingPoint(models.Model):
     seance = models.ForeignKey(Seance, on_delete=models.CASCADE)
     point_title_nl = models.TextField(null=True)
     point_title_fr = models.TextField(null=True)
+    users_vote_count = models.IntegerField(default=0)
+    users_last_vote_date = models.DateField(null=True)
 
 
 class Amendement(models.Model):
@@ -22,6 +24,13 @@ class Amendement(models.Model):
     voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
     title_nl = models.TextField(null=True)
     title_fr = models.TextField(null=True)
+    users_vote_count = models.IntegerField(default=0)
+    users_last_vote_date = models.DateField(null=True)
+
+class UserVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    voting_point = models.ForeignKey(VotingPoint, null=True, on_delete=models.CASCADE)
+    amendement = models.ForeignKey(Amendement, null=True, on_delete=models.CASCADE)
 
 
 class TotalVote(models.Model):

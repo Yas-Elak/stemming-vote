@@ -56,6 +56,7 @@
                                     {% else %}
                                     {{ voting_point_of_amendement.point_title_nl }}
                                     {% endif %}
+
                                 </h1>
                             </div>
                         </div>
@@ -66,25 +67,43 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                <h2>
-                                    {% if is_amendement == 0 %}
-                                    {% if LANGUAGE_CODE == 'fr' %}
-                                    {{ voting_point.point_title_fr }}
-                                    {% else %}
-                                    {{ voting_point.point_title_nl }}
-                                    {% endif %}
-                                    {% else %}
-                                    <!-- could add the point linked to the amendment -->
-                                    {% if LANGUAGE_CODE == 'fr' %}
-                                    {{ voting_point.title_fr }}
-                                    {% else %}
-                                    {{ voting_point.title_nl }}
-                                    {% endif %}
-                                    {% endif %}
-                                </h2>
+                                <div class="row">
+                                    <div class="col-sm-11">
+                                        <h2 class="col-sm-11">
+                                            {% if is_amendement == 0 %}
+                                            {% if LANGUAGE_CODE == 'fr' %}
+                                            {{ voting_point.point_title_fr }}
+                                            {% else %}
+                                            {{ voting_point.point_title_nl }}
+                                            {% endif %}
+                                            {% else %}
+                                            <!-- could add the point linked to the amendment -->
+                                            {% if LANGUAGE_CODE == 'fr' %}
+                                            {{ voting_point.title_fr }}
+                                            {% else %}
+                                            {{ voting_point.title_nl }}
+                                            {% endif %}
+                                            {% endif %}
+
+                                        </h2>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <h2><span class="float-right">
+                                        {% if can_vote == 0 %}
+                                             {{voting_point.users_vote_count}}
+                                        {% else %}
+                                        <a href="/seance/{{seance.id}}/{{voting_point.id}}/{{ is_amendement }}/1/"><i class="feather icon-arrow-up"></i></a>
+                                        {{voting_point.users_vote_count}}
+                                        <a href="/seance/{{seance.id}}/{{voting_point.id}}/{{ is_amendement }}/0/"><i class="feather icon-arrow-down"></i></a>
+                                        {% endif %}
+                                </span>
+                                        </h2>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 {% if total != -1 %}
@@ -349,7 +368,7 @@
                         </div>
                     </div>
                 </div>
-<div  class="accordion" id="accordionExample">
+                <div  class="accordion" id="accordionExample">
 
 
                     <div class="card">

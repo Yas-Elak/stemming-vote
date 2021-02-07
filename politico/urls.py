@@ -26,6 +26,8 @@ urlpatterns = [
     path('admin_web/article/<int:article_id>/', admin_moderation.delete_article, name='admin_delete_article'),
     path('admin_web/article/<int:article_id>/<str:lang>/', admin_moderation.add_article, name='admin_add_article'),
 
+    path('seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/<int:result>/', points.user_vote, name="voting_point_user_vote"),
+
 ]
 
 

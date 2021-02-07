@@ -2,12 +2,14 @@ from itertools import chain
 
 from django.db import IntegrityError
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag
+from django.shortcuts import render, get_object_or_404, redirect
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag, UserVote
 import json
 from django.utils import translation
 from ..forms import ProposeArticleForm, ProposeTagForm
 from django.utils.translation import gettext
+from django.utils import timezone
+
 
 
 from .constants import *
@@ -20,6 +22,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     success = -1
     seance = Seance.objects.get(id=seance_id)
     discussion = ''
+    can_vote = 0
 
 
     if cur_language == 'fr':
@@ -33,6 +36,11 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         #I got a total vote only if there is no amemdment link to this voting point
         voting_point_total_vote = TotalVote.objects.filter(voting_point=votingpoint_id, amendement__isnull=True).first()
         discussion = voting_point.discussion
+        if UserVote.objects.filter(voting_point_id=voting_point.id, user_id=request.user.id).exists():
+            can_vote = 0
+        else:
+            can_vote = 1
+
     else:
         #this is the amendement, I use the same var, but the difference is that an amendment has always a vote
         # and not others amendement linked to it
@@ -40,6 +48,10 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         voting_point_total_vote = TotalVote.objects.filter(amendement=votingpoint_id).first()
         voting_point_of_amendement = voting_point.voting_point
         discussion = voting_point_of_amendement.discussion
+        if UserVote.objects.filter(amendement_id=voting_point.id, user_id=request.user.id).exists():
+            can_vote = 0
+        else:
+            can_vote = 1
 
 
 
@@ -179,7 +191,9 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     if request.method == 'GET':
         success= -1
 
-    print(str(request.method))
+    if not request.user.is_authenticated:
+        can_vote = 0
+
     return render(request, 'politico/vote.html', {'seance': seance,
                                                   'voting_point': voting_point,
                                                   'total_vote': voting_point_total_vote,
@@ -195,4 +209,32 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'msg': msg,
                                                   'success':success,
                                                   'tags':all_tags,
-                                                  'discussion': discussion})
+                                                  'discussion': discussion,
+                                                  'can_vote': can_vote})
+
+
+def user_vote(request, seance_id, votingpoint_id, is_amendement, result):
+    current_user = request.user
+
+    c = 0
+    if result == 0:
+        c = -1
+    else:
+        c = 1
+
+    if is_amendement == 0:
+        point = VotingPoint.objects.get(pk=votingpoint_id)
+        point.users_vote_count = point.users_vote_count + c
+        point.users_last_vote_date = timezone.now()
+        point.save()
+        userVote = UserVote.objects.create(voting_point=point, user=current_user)
+
+    else:
+        point = Amendement.objects.get(pk=votingpoint_id)
+        point.users_vote_count = point.users_vote_count + c
+        point.users_last_vote_date = timezone.now()
+        point.save()
+        userVote = UserVote.objects.create(amendement=point, user=current_user)
+
+
+    return redirect('detail_voting_point', seance_id=seance_id, votingpoint_id=votingpoint_id, is_amendement=is_amendement)

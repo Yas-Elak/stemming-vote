@@ -111,7 +111,7 @@
 
                 <!-- this means we have a voting point for this point and not only amendemant -->
                 <div class="row">
-                    <div class="col-xl-5">
+                    <div class="col-xl-4">
                         <div class="card">
                             <div class="card-header">
                                 <h5>{% blocktrans %}Total : {{ total }} {% endblocktrans %} </h5>
@@ -121,8 +121,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>{% trans "Résumé des articles" %}</h5>
+                            </div>
+                            <div class="card-block">
+                                <p class="explain-to-hide">{% trans "Passez la souris au dessus du lien d'un article pour avoir son résumé." %}</p>
+                                {% for link in voting_point.linkarticle_set.all  %}
 
-                    <div class="col-xl-7">
+                                <p class="ar_{{ link.id }} to_hide">
+                                    {% if link.smmry_content == None %}
+                                    {% trans "Résumé de l'article non disponible" %}
+                                    {% else %}
+                                    {{ link.smmry_content }}
+                                    {% endif %}
+
+                                </p>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
                         <div class="card">
 
                             <div class="card-header">
@@ -138,14 +160,14 @@
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
                                         {% for link in voting_point_of_amendement.linkarticle_set.all  %}
                                         {% if link.language == 'FR' %}
-                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
                                         {% for link in voting_point_of_amendement.linkarticle_set.all  %}
                                         {% if link.language == 'NL' %}
-                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -158,14 +180,14 @@
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'FR' %}
-                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item" ><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'NL' %}
-                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}"  href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -265,15 +287,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <div class="card-header" id="headingTwo">
-                            <h5 class="mb-0"><a href="#!" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">{% trans "Texte de la séance sur ce point" %}</a></h5>
-                        </div>
-                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                            {{ discussion.text|linebreaks }}
-                        </div>
-                    </div>
                 </div>
 
 
@@ -352,14 +365,14 @@
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'FR' %}
-                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item" "><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'NL' %}
-                                        <li class="list-group-item"><a href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -368,32 +381,62 @@
                         </div>
                     </div>
                 </div>
-                <div  class="accordion" id="accordionExample">
 
+                {% endif %}
+                <div class="row">
+                    <div class="col-sm-12">
 
-                    <div class="card">
-                        <div class="card-header" id="headingTwo">
-                            <h5 class="mb-0"><a href="#!" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">{% trans "Texte de la séance sur ce point" %}</a></h5>
-                        </div>
-                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                            {{ discussion.text|linebreaks }}
+                        <div class="card">
+                            <div class="card-header">
+                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse-txt-seance" aria-expanded="false" aria-controls="collapse-txt-seance">{% trans "Texte de la seance" %}</button>
+
+                                {% if vp_docs_count > 0 %}
+                                <button class="btn btn-primary"  onclick="go()" type="button" data-toggle="collapse" data-target="#collapse-iframe" aria-expanded="false" aria-controls="collapse-iframe">{% trans "Documents liés" %}</button>
+                                {% endif %}
+                            </div>
+                            <div class="accordion-group">
+
+                                <div class="collapse" id="collapse-txt-seance">
+                                    <div class="card-body">
+                                        {{ discussion.text|linebreaks }}
+                                    </div>
+
+                                </div>
+                                {% if vp_docs_count > 0 %}
+
+                                <div class="collapse" id="collapse-iframe">
+                                    <div class="card-body text-center ">
+                                        {% if is_amendement == 1 %}
+                                        {% for vp in voting_point_of_amendement.votingpointdocs_set.all  %}
+                                        <p><a href="{{ vp.url }}">{{ vp.url }}</a></p>
+                                        <iframe  id="vpd_{{ vp.id }}"  style="border: none;"  width="500" height="500" src=""></iframe>
+                                        {% endfor %}
+                                        {% else %}
+                                        {% for vp in voting_point.votingpointdocs_set.all  %}
+                                        <p><a href="{{ vp.url }}">{{ vp.url }}</a></p>
+                                        <iframe  id="vpd_{{ vp.id }}"  style="border: none;"  width="500" height="500" src=""></iframe>
+                                        {% endfor %}
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
-                {% endif %}
 
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             {% load comment_tags %}
 
-                                {% render_comments voting_point request %}
+                            {% render_comments voting_point request %}
                         </div>
                     </div>
                 </div>
-                 {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
 
                 <div>
                     {% if success == 1 %}
@@ -439,11 +482,6 @@
                     </div>
                 </div>
                 {% endif %}
-
-
-
-
-
 
                 <!-- [ Main Content ] end -->
             </div>
@@ -504,7 +542,7 @@ $(document).ready(function() {
         xLabelAngle: 90,
         stacked: true,
         barSizeRatio: 0.50,
-        barGap: 1,
+        barGap: 0.5 ,
         resize: true,
         responsive:true,
         ykeys: ['Oui / Ja', 'Non / Nee', 'Abstention / Onthouding'],
@@ -522,6 +560,10 @@ $(document).ready(function() {
 
 
 $(window).on('load', function() {
+
+
+    $(".to_hide").hide();
+
     $("#btn-fr" ).click(function() {
             $("#ul-nl").hide();
             $("#ul-fr").show();
@@ -540,8 +582,57 @@ $(window).on('load', function() {
         $("#ul-fr").hide();
     };
 
+ $(function () {
+    $(".article").hover(function () {
+        var item_num = $(this).data('article-item');
+        $(".explain-to-hide").hide();
+        $(".to_hide").hide();
+        $('.ar_'+item_num).show()
+    });
+});
+
+
 });
 </script>
 
+
+<script>
+
+
+    jQuery(function($){
+
+    // Replace 'td' with your html tag
+    $(".to_hide").html(function() {
+
+    // Replace 'ok' with string you want to change, you can delete 'hello everyone' to remove the text
+          return $(this).html().replace("\.", "\.<br><br>");
+
+    });
+});
+</script>
+
+<script type="text/javascript">
+
+
+
+function go() {
+{% if is_amendement == 1 %}
+    {% for vp in voting_point_of_amendement.votingpointdocs_set.all  %}
+            document.getElementById("vpd_{{ vp.id }}").src ="https://drive.google.com/file/d/{{vp.drive_url}}/preview";
+     {% endfor %}
+{% else %}
+ {% for vp in voting_point.votingpointdocs_set.all  %}
+            document.getElementById("vpd_{{ vp.id }}").src ="https://drive.google.com/file/d/{{vp.drive_url}}/preview";
+     {% endfor %}
+{% endif %}
+
+
+}
+
+function goc() {
+    document.getElementById("test").src = "https://drive.google.com/file/d/1QzsbokWwIkH_hOirQ8ejSqkYKFShnRDU/preview";
+}
+
+</script>
 
 {% endblock javascripts %}

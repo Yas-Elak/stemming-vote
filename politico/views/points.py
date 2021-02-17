@@ -4,7 +4,7 @@ from comment.models import Comment
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag, UserVote
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag, UserVote, VotingPointDocs
 import json
 from django.utils import translation
 from ..forms import ProposeArticleForm, ProposeTagForm
@@ -24,7 +24,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     seance = Seance.objects.get(id=seance_id)
     discussion = ''
     can_vote = 0
-
+    vp_docs_count = 0
 
     if cur_language == 'fr':
         seance.seance_name = (seance.seance_name).split('/')[0]
@@ -44,6 +44,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
             can_vote = 0
         else:
             can_vote = 1
+        vp_docs_count = VotingPointDocs.objects.filter(voting_point=voting_point).count()
 
     else:
         #this is the amendement, I use the same var, but the difference is that an amendment has always a vote
@@ -52,10 +53,13 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         voting_point_total_vote = TotalVote.objects.filter(amendement=votingpoint_id).first()
         voting_point_of_amendement = voting_point.voting_point
         discussion = voting_point_of_amendement.discussion
+        vp_docs_count = VotingPointDocs.objects.filter(voting_point=voting_point_of_amendement).count()
+
         if UserVote.objects.filter(amendement_id=voting_point.id, user_id=request.user.id).exists():
             can_vote = 0
         else:
             can_vote = 1
+
 
 
 
@@ -198,6 +202,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     if not request.user.is_authenticated:
         can_vote = 0
 
+
     return render(request, 'politico/vote.html', {'seance': seance,
                                                   'voting_point': voting_point,
                                                   'total_vote': voting_point_total_vote,
@@ -214,7 +219,8 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'success':success,
                                                   'tags':all_tags,
                                                   'discussion': discussion,
-                                                  'can_vote': can_vote})
+                                                  'can_vote': can_vote,
+                                                  'vp_docs_count':vp_docs_count})
 
 
 def user_vote(request, seance_id, votingpoint_id, is_amendement, result):

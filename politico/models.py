@@ -21,7 +21,11 @@ class VotingPoint(models.Model):
     users_last_vote_date = models.DateField(null=True)
     comments = GenericRelation(Comment)
 
-
+class VotingPointDocs(models.Model):
+    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
+    url = models.CharField(max_length=255, null=True)
+    drive_url = models.TextField(null=True)
+    doc_type = models.CharField(max_length=25, null=True)
 
 class Amendement(models.Model):
     seance = models.ForeignKey(Seance, null=True, on_delete=models.CASCADE)
@@ -82,6 +86,10 @@ class LinkArticle(models.Model):
     link_url = models.TextField(null=False, blank=False)
     relevance = models.IntegerField(default=1, null=False)
     language = models.CharField(max_length=2)
+    smmry_content = models.TextField(null=True)
+    smmry_title = models.TextField(null=True)
+    smmry_reduced = models.TextField(null=True)
+    smmry_done = models.BooleanField(default=False)
 
 class ProposedArticle(models.Model):
     voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)

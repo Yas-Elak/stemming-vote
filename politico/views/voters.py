@@ -22,9 +22,14 @@ def index(request):
     # nl, the link for the chamber will be with language=nl
     voters = change_url_to_nl(voters)
 
+    total_seances_55 = Seance.objects.all().count()
+
+
+
     return render(request, "politico/members.html", {'members': voters,
                                                      'segment': 'membres',
-                                                     'parties_list_id': parties_list_id})
+                                                     'parties_list_id': parties_list_id,
+                                                     'total_seances_55':total_seances_55})
 
 
 def detail_voter(request, voter_id):
@@ -55,10 +60,10 @@ def detail_voter(request, voter_id):
     voted_abs_for = Vote.objects.filter(voter_id=voter.id, vote_decision=2)
 
 
-
-
-
-
+    #need to count how many seances he voted in
+    number_of_seances = voter.seances.all().count()
+    total_seances_55 = Seance.objects.all().count()
+    participation_pourcent = str(round((number_of_seances/total_seances_55)*100, 2))
 
     return render(request, "politico/member.html", {'voter': voter,
                                                     'votes_count': votes_count,
@@ -67,7 +72,10 @@ def detail_voter(request, voter_id):
                                                     'voted_yes_for':voted_yes_for,
                                                     'voted_no_for': voted_no_for,
                                                     'voted_abs_for': voted_abs_for,
-                                                    'segment': 'membres'})
+                                                    'segment': 'membres',
+                                                    'number_of_seances':number_of_seances,
+                                                    'total_seances_55':total_seances_55,
+                                                    'participation_pourcent':participation_pourcent})
 
 
 def change_url_to_nl(voters):

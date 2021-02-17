@@ -13,7 +13,7 @@
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
-<!-- [ breadcrumb ] start -->
+        <!-- [ breadcrumb ] start -->
         <div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center">
@@ -52,7 +52,9 @@
                                     <li  class="list-group-item">{{ voter.voter_email }}</li>
                                     <li  class="list-group-item"><a href="{{ voter.voter_url }}">{% trans "Lien vers lachambre.be" %}</a></li>
                                     <li  class="list-group-item"><a href="{{ voter.voter_website }}">{% trans "Mon site web" %}</a></li>
-                                    <li  class="list-group-item">{% blocktrans %} J'ai voté {{ votes_count }} fois dans la législature 55. {% endblocktrans %} </li>
+                                    <li  class="list-group-item">{% blocktrans %} A voté {{ votes_count }} fois dans la législature 55. {% endblocktrans %} </li>
+                                    <li  class="list-group-item">{% blocktrans %} A participé à {{ number_of_seances }} sur {{ total_seances_55 }} séances analysées {% endblocktrans %} ({{ participation_pourcent }}%) </li>
+
                                 </ul>
                             </div>
                         </div>

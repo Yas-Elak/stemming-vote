@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load staticfiles %}
 {% load i18n %}
-
+{% load custom_filters_politico %}
 {% block title %} Membres / Kamerleden {% endblock %}
 
 <!-- Specific CSS goes HERE -->
@@ -57,6 +57,7 @@
                                             <th>{% trans "E-mail" %}</th>
                                             <th>{% trans "Page sur la chambre.be" %}</th>
                                             <th>{% trans "Website" %}</th>
+                                            <th>{% trans "Participation sur séances analysées" %}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -83,6 +84,9 @@
                                                 {% if m.voter_website %}
                                                 <a href="{{ m.voter_website }}"><i class="feather icon-globe"></i></a>
                                                 {% endif %}
+                                            </td>
+                                            <td class="align-middle list-decision-name" style="text-align: center;">
+                                                {{ m.seances.count|pourcent:total_seances_55 }}%
                                             </td>
 
                                         </tr>

@@ -25,6 +25,10 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     discussion = ''
     can_vote = 0
     vp_docs_count = 0
+    previous_point = None
+    next_point = None
+    next_amd = None
+    previous_amd = None
 
     if cur_language == 'fr':
         seance.seance_name = (seance.seance_name).split('/')[0]
@@ -45,6 +49,15 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         else:
             can_vote = 1
         vp_docs_count = VotingPointDocs.objects.filter(voting_point=voting_point).count()
+        # for next and previous points and amendement
+        try:
+            previous_point = VotingPoint.objects.get(pk=(voting_point.id - 1), seance=seance)
+        except VotingPoint.DoesNotExist:
+            previous_point = None
+        try:
+            next_point = VotingPoint.objects.get(pk=(voting_point.id + 1), seance=seance)
+        except VotingPoint.DoesNotExist:
+            next_point = None
 
     else:
         #this is the amendement, I use the same var, but the difference is that an amendment has always a vote
@@ -60,7 +73,24 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         else:
             can_vote = 1
 
+        # for next and previous points and amendement
+        try:
+            previous_point = VotingPoint.objects.get(pk=(voting_point_of_amendement.id-1), seance=seance)
+        except VotingPoint.DoesNotExist:
+            previous_point = None
+        try:
+            next_point = VotingPoint.objects.get(pk=(voting_point_of_amendement.id+1), seance=seance)
+        except VotingPoint.DoesNotExist:
+            next_point = None
 
+        try:
+            previous_amd = Amendement.objects.get(pk=(voting_point.id-1), voting_point=voting_point_of_amendement)
+        except VotingPoint.DoesNotExist:
+            previous_amd = None
+        try:
+            next_amd =  Amendement.objects.get(pk=(voting_point.id+1), voting_point=voting_point_of_amendement)
+        except VotingPoint.DoesNotExist:
+            next_amd = None
 
 
     #got the amendement link to to this point, if the voting point has no vote of his own, then he has amendment
@@ -220,7 +250,11 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'tags':all_tags,
                                                   'discussion': discussion,
                                                   'can_vote': can_vote,
-                                                  'vp_docs_count':vp_docs_count})
+                                                  'vp_docs_count':vp_docs_count,
+                                                  'previous_point':previous_point,
+                                                  'next_point': next_point,
+                                                  'previous_amd': previous_amd,
+                                                  'next_amd': next_amd})
 
 
 def user_vote(request, seance_id, votingpoint_id, is_amendement, result):

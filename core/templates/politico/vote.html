@@ -29,20 +29,20 @@
                             <li class="breadcrumb-item"><a href="/seances/">{% trans "Séances" %}</a></li>
                             <li class="breadcrumb-item"><a href="/seances/seance/{{ seance.id }}">{{ seance.seance_name }}</a></li>
                             <li class="breadcrumb-item">
-                            {% if is_amendement == 0 %}
-                            {% if LANGUAGE_CODE == 'fr' %}
-                            {{ voting_point.point_title_fr|truncatewords:5 }}
-                            {% else %}
-                            {{ voting_point.point_title_nl|truncatewords:5 }}
-                            {% endif %}
-                            {% else %}
-                            <!-- could add the point linked to the amendment -->
-                            {% if LANGUAGE_CODE == 'fr' %}
-                            {{ voting_point.title_fr|truncatewords:5 }}
-                            {% else %}
-                            {{ voting_point.title_nl|truncatewords:5 }}
-                            {% endif %}
-                            {% endif %}
+                                {% if is_amendement == 0 %}
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                {{ voting_point.point_title_fr|truncatewords:5 }}
+                                {% else %}
+                                {{ voting_point.point_title_nl|truncatewords:5 }}
+                                {% endif %}
+                                {% else %}
+                                <!-- could add the point linked to the amendment -->
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                {{ voting_point.title_fr|truncatewords:5 }}
+                                {% else %}
+                                {{ voting_point.title_nl|truncatewords:5 }}
+                                {% endif %}
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
@@ -55,20 +55,45 @@
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-4">
                         <div class="card">
                             <div class="card-header">
                                 <h5>{{ seance.seance_name }} - {{ seance.seance_date|date:'d/m/Y' }}</h5>
                             </div>
                         </div>
                     </div>
-                    <div class="col-7">
+                    <div class="col-6">
                         <div class="card">
                             <div class="card-header tag-header">
                                 Tags:
                                 {% for tag in tags %}
                                 <a href="/search/result/{{ tag.name }}" class="label theme-bg text-white f-12 tag" >{{tag.name}}</a>
                                 {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="card">
+                            <div class="card-header tag-header">
+                                <div class="nav-item sub-nav-title float-md-right pr-0">
+                                    {% if previous_point != None %}
+                                    {% trans "Point" %}
+                                    <a href="/seances/seance/{{voting_point.seance_id}}/{{ previous_point.id }}/0/" class=""><i class="feather icon-chevron-left"></i></a>
+                                    {% endif %}
+                                    {% if next_point != None %}
+                                    <a href="/seances/seance/{{voting_point.seance_id}}/{{ next_point.id }}/0/" class=""><i class="feather icon-chevron-right"></i></a>
+                                    {% endif %}
+
+                                    {% if is_amendement == 1 %}
+                                    | Amd
+                                    {% if previous_amd != None %}
+                                    <a href="/seances/seance/{{voting_point.seance_id}}/{{ previous_amd.id }}/1/" class=""><i class="feather icon-chevron-left"></i></a>
+                                    {% endif %}
+                                    {% if next_amd != None %}
+                                    <a href="/seances/seance/{{voting_point.seance_id}}/{{ next_amd.id }}/1/" class=""><i class="feather icon-chevron-right"></i></a>
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>

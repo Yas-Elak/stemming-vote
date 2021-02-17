@@ -7,8 +7,10 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 from politico.models import LinkArticle
+from django.conf import settings
 
-SM_API_KEY = 'EBD4B92AE5'
+
+SM_API_KEY = settings.SM_API_KEY
 SM_LENGTH = 3
 
 # • SM_API_KEY=N	 Required, your API key.

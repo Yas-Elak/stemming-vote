@@ -76,8 +76,8 @@
                         <div class="card">
                             <div class="card-header tag-header">
                                 <div class="nav-item sub-nav-title float-md-right pr-0">
-                                    {% if previous_point != None %}
                                     {% trans "Point" %}
+                                    {% if previous_point != None %}
                                     <a href="/seances/seance/{{voting_point.seance_id}}/{{ previous_point.id }}/0/" class=""><i class="feather icon-chevron-left"></i></a>
                                     {% endif %}
                                     {% if next_point != None %}

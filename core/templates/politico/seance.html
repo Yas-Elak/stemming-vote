@@ -21,11 +21,13 @@
             <div class="page-block">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <ul class="breadcrumb">
+                        <ul class="breadcrumb" style="width:100%">
                             <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="/seances/">{% trans "Séances" %}</a></li>
                             <li class="breadcrumb-item">{{ seance.seance_name }}</li>
+
                         </ul>
+
                     </div>
                 </div>
             </div>
@@ -41,6 +43,14 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5>{{ seance.seance_name }}</h5>
+                                <div class="nav-item sub-nav-title float-md-right pr-0"> {% if previous_s != None %}
+                                    <a href="/seances/seance/{{previous_s.id}}" class="pre_next"><i class="feather icon-chevron-left"></i></a>
+                                    {% endif %}
+                                    {% if next_s != None %}
+                                    <a href="/seances/seance/{{next_s.id}}" class="pre_next"><i class="feather icon-chevron-right"></i></a>
+                                    {% endif %}
+                                </div>
+
                             </div>
                             <div class="card-block table-border-style">
                                 <div class="table-responsive">

@@ -28,5 +28,21 @@ def detail(request, seance_id):
         seance.seance_name = (seance.seance_name).split('/')[1]
 
     voting_points = VotingPoint.objects.filter(seance=seance)
-    return render(request, 'politico/seance.html', {'voting_points': voting_points, 'segment': 'seances', 'seance': seance})
+
+    #for next and previous seance
+    try:
+        previous_s = Seance.objects.get(pk=seance_id-1)
+    except Seance.DoesNotExist:
+        previous_s = None
+    try:
+        next_s = Seance.objects.get(pk=seance_id+1)
+    except Seance.DoesNotExist:
+        next_s = None
+
+
+    return render(request, 'politico/seance.html', {'voting_points': voting_points,
+                                                    'segment': 'seances',
+                                                    'seance': seance,
+                                                    'previous_s': previous_s,
+                                                    'next_s': next_s})
 

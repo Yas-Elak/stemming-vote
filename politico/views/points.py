@@ -31,7 +31,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     else:
         seance.seance_name = (seance.seance_name).split('/')[1]
 
-    # Here I'll now if I'm deling with a point that can have a vote or amendements
+    # Here I'll now if I'm dealing with a point that can have a vote or amendements
     if is_amendement == 0:
         voting_point = VotingPoint.objects.get(id=votingpoint_id)
         #I got a total vote only if there is no amemdment link to this voting point

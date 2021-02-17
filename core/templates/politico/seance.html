@@ -16,6 +16,22 @@
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/seances/">{% trans "Séances" %}</a></li>
+                            <li class="breadcrumb-item">{{ seance.seance_name }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+
         <div class="main-body">
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
@@ -44,7 +60,7 @@
                                                 <!--  0 in the url because it is not an amendment but a point-->
                                                 <a  href="/seances/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
                                                     {% if LANGUAGE_CODE == 'fr' %}
-                                                        {{ vp.point_title_fr }}
+                                                    {{ vp.point_title_fr }}
                                                     {% else %}
                                                     {{ vp.point_title_nl }}
                                                     {% endif %}

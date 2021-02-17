@@ -54,7 +54,8 @@ def detail_voter(request, voter_id):
     voted_no_for = Vote.objects.filter(voter_id=voter.id, vote_decision=1)
     voted_abs_for = Vote.objects.filter(voter_id=voter.id, vote_decision=2)
 
-    #calcul présence on sessions
+
+
 
 
 

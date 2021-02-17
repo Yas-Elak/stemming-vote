@@ -92,9 +92,9 @@
                                         {% if can_vote == 0 %}
                                              {{voting_point.users_vote_count}}
                                         {% else %}
-                                        <a href="/seance/{{seance.id}}/{{voting_point.id}}/{{ is_amendement }}/1/"><i class="feather icon-arrow-up"></i></a>
+                                        <a href="/seances/seance/{{seance.id}}/{{voting_point.id}}/{{ is_amendement }}/1/"><i class="feather icon-arrow-up"></i></a>
                                         {{voting_point.users_vote_count}}
-                                        <a href="/seance/{{seance.id}}/{{voting_point.id}}/{{ is_amendement }}/0/"><i class="feather icon-arrow-down"></i></a>
+                                        <a href="/seances/seance/{{seance.id}}/{{voting_point.id}}/{{ is_amendement }}/0/"><i class="feather icon-arrow-down"></i></a>
                                         {% endif %}
                                 </span>
                                         </h2>
@@ -326,7 +326,7 @@
                                         {% for amendement in voting_point.amendement_set.all %}
                                         <tr>
                                             <td>
-                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/">
+                                                <a href="/seances/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/">
                                                     <p>
                                                         {% if LANGUAGE_CODE == 'fr' %}
                                                         {{ amendement.title_fr }}

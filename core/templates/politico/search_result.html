@@ -70,7 +70,7 @@
                                                         <tbody>
                                                         {% for seance in seances %}
                                                         <tr>
-                                                            <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
+                                                            <td><a href="/seances/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
                                                             <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
                                                             <td>{{ seance.seance_legislature }}</td>
                                                             <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"></i></a></td>
@@ -101,7 +101,7 @@
                                                         {% for vp in voting_points  %}
                                                         <tr>
                                                             <td>
-                                                                <a  href="/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
+                                                                <a  href="/seances/seance/{{vp.seance_id}}/{{ vp.id }}/0/">
                                                                     {% if LANGUAGE_CODE == 'fr' %}
                                                                         {{ vp.point_title_fr }}
                                                                     {% else %}
@@ -147,7 +147,7 @@
                                                         {% for amendement in amendements %}
                                                         <tr>
                                                             <td>
-                                                                <a href="/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/"><p>
+                                                                <a href="/seances/seance/{{ amendement.seance_id }}/{{amendement.id}}/1/"><p>
                                                                 {% if LANGUAGE_CODE == 'fr' %}
                                                                     {{ amendement.title_fr }}
                                                                     {% else %}

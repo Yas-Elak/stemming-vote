@@ -40,7 +40,7 @@
                                         <tbody>
                                             {% for seance in seances %}
                                             <tr>
-                                                <td><a href="/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
+                                                <td><a href="/seances/seance/{{ seance.id }}/">{{ seance.seance_name }}</a></td>
                                                 <td>{{ seance.seance_date|date:'d/m/Y' }}</td>
                                                 <td>{{ seance.seance_legislature }}</td>
                                                 <td><a href={{ seance.seance_url }}><i class="feather icon-paperclip"/></td>

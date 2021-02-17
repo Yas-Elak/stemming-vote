@@ -13,8 +13,8 @@ urlpatterns = [
     path('', homepage.index, name='home'),
 
     path('seances/', seances.index, name="seances"),
-    path('seance/<int:seance_id>/', seances.detail, name="seance_detail"),
-    path('seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/', points.detail_voting_point, name="detail_voting_point"),
+    path('seances/seance/<int:seance_id>/', seances.detail, name="seance_detail"),
+    path('seances/seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/', points.detail_voting_point, name="detail_voting_point"),
 
     path('members/', voters.index, name="members"),
     path('members/<int:voter_id>/', voters.detail_voter, name="member"),
@@ -30,7 +30,7 @@ urlpatterns = [
     path('admin_web/tag/<int:tag_id>/', admin_moderation.delete_tag, name='admin_delete_tag'),
     path('admin_web/tag/<int:tag_id>/add/', admin_moderation.add_tag, name='admin_add_tag'),
 
-    path('seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/<int:result>/', points.user_vote, name="voting_point_user_vote"),
+    path('seances/seance/<int:seance_id>/<int:votingpoint_id>/<int:is_amendement>/<int:result>/', points.user_vote, name="voting_point_user_vote"),
 
     path('redirect_from_comment/<int:comment_id>/', points.redirect_from_comment, name="redirect_from_comment"),
 

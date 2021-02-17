@@ -24,8 +24,6 @@ def index(request):
 
     total_seances_55 = Seance.objects.all().count()
 
-
-
     return render(request, "politico/members.html", {'members': voters,
                                                      'segment': 'membres',
                                                      'parties_list_id': parties_list_id,

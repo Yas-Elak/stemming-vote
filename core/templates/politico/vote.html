@@ -295,7 +295,7 @@
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
                                                         <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>
                                                         <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                            <img src="{% static 'assets/images/politico/politicians/'|add:voter.voter_image %}"  class="img-thumbnail" alt="{{ voter.voter_name }}">
                                                         </div>
                                                     </li>
                                                     {% endfor %}
@@ -309,7 +309,7 @@
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
                                                         <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>
                                                         <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                            <img src="{% static 'assets/images/politico/politicians/'|add:voter.voter_image %}" class="img-thumbnail" alt="{{ voter.voter_name }}">
                                                         </div>
                                                     </li>
                                                     {% endfor %}
@@ -325,7 +325,7 @@
                                                     <li class="list-group-item d-flex justify-content-between align-items-center list-decision-name">
                                                         <a href="/members/{{voter.id}}">{{ voter.voter_name }}</a>
                                                         <div class="image-parent-decision-list">
-                                                            <img src="{{ voter.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                            <img src="{% static 'assets/images/politico/politicians/'|add:voter.voter_image %}" class="img-thumbnail" alt="{{ voter.voter_name }}">
                                                         </div>
                                                     </li>
                                                     {% endfor %}

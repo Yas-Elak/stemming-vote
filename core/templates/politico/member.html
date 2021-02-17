@@ -38,7 +38,7 @@
                                 <h5>{{ voter.voter_name }}</h5>
                             </div>
                             <div class="card-block  text-center">
-                                <img class="member_picture" src="{{ voter.voter_image }}" />
+                                <img class="member_picture" src="{% static 'assets/images/politico/politicians/'|add:voter.voter_image %}" alt="{{ voter.voter_name }}" />
                             </div>
                         </div>
                     </div>

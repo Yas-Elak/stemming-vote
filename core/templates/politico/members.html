@@ -66,7 +66,7 @@
                                         <tr>
                                             <td>
                                                 <div class="image-parent-decision-list">
-                                                    <img src="{{ m.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                    <img src="{% static 'assets/images/politico/politicians/'|add:m.voter_image %}" class="img-thumbnail" alt="{{ voter.voter_name }}">
                                                 </div>
                                             </td>
                                             <td class="align-middle list-decision-name"><a href="/members/{{m.id}}">{{ m.voter_name }}</a></td>
@@ -81,7 +81,7 @@
                                                 {% endif %}
                                             </td>
                                             <td class="align-middle list-decision-name">
-                                                {% if m.voter_website %}
+                                                {% if m.voter_website  %}
                                                 <a href="{{ m.voter_website }}"><i class="feather icon-globe"></i></a>
                                                 {% endif %}
                                             </td>

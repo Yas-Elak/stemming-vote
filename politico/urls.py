@@ -4,13 +4,14 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django.urls import path
-from politico.views import seances, points, voters, search, homepage, admin_moderation
+from politico.views import seances, points, voters, search, homepage, admin_moderation, accueil
 from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, path
 
 urlpatterns = [
 
     path('', homepage.index, name='home'),
+    path('home', accueil.index, name='home'),
 
     path('seances/', seances.index, name="seances"),
     path('seances/seance/<int:seance_id>/', seances.detail, name="seance_detail"),

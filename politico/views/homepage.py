@@ -37,5 +37,6 @@ def index(request):
                                           'voters': total_politiciens,
                                           'tags': tags,
                                           'voting_points_by_count':voting_points_by_count,
-                                          'last_comments': last_comments})
+                                          'last_comments': last_comments,
+                                          'segment': 'index'})
 

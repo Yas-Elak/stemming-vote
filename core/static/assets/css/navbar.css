@@ -1,0 +1,63 @@
+.fa-gradient {
+  background: -webkit-linear-gradient(#FFFB05, #FFB805);
+  	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	z-index: 999;
+}
+
+
+body {
+  background-image: url("/static/assets/images/crossword.png");
+  background-repeat: repeat;
+}
+
+
+.pcoded-navbar a{
+color: white !important;
+}
+
+
+.pcoded-navbar .pcoded-inner-navbar > li.active:after, .pcoded-navbar .pcoded-inner-navbar > li.pcoded-trigger:after{
+background-color: #C23A22;
+
+}
+
+
+.card .card-header h5:after{
+background-color: #FFB805;
+
+}
+
+
+td a{
+
+color:#686868;
+font-size: 1rem;
+}
+
+.pcoded-navbar{
+
+opacity: 90%;
+}
+
+
+.breadcrumb{
+background-color: rgba(255, 255, 255, 0.1);
+
+}
+
+.breadcrumb-item a{
+
+color: #C23A22;
+
+}
+.breadcrumb-item + .breadcrumb-item{
+
+color: #edc4db;
+
+}
+
+
+.pre_next{
+color: #C23A22;
+}

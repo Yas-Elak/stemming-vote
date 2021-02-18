@@ -11,7 +11,7 @@ from django.urls import include, path
 urlpatterns = [
 
     path('', homepage.index, name='home'),
-    path('home/', accueil.index, name='home'),
+    path('home/', accueil.index, name='about'),
 
     path('seances/', seances.index, name="seances"),
     path('seances/seance/<int:seance_id>/', seances.detail, name="seance_detail"),

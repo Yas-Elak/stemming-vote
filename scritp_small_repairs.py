@@ -5,10 +5,10 @@ django.setup()
 from politico.models import Voter
 
 voters = Voter.objects.all()
-queryset = voters.filter(voter_image__icontains="http")
+queryset = voters.exclude(voter_image__icontains=".jpg")
 
 for v in queryset:
-    name_img = ((v.voter_name).replace(" ", "_"))+"jpg"
+    name_img = ((v.voter_name).replace(" ", "_"))+".jpg"
     v.voter_image = name_img
     v.save()
 

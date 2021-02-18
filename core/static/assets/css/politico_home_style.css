@@ -11,11 +11,18 @@ font-family: Roboto, sans-serif;
 }
 
 .king{
-font-size: 72px;
   background: -webkit-linear-gradient(#FFFB05, #FFB805);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
+}
+
+.fa-gradient {
+font-size: 5rem;
+  background: -webkit-linear-gradient(#FFFB05, #FFB805);
+  	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	z-index: 999;
 }
 .dot {
   height: 25px;
@@ -54,20 +61,7 @@ padding-top: 20px;
 font-size:40px;
 }
 
-.btn-primary {
-  font-family: Roboto;
-  font-size: 50px;
-  color: white;
-  letter-spacing: 1px;
-  line-height: 40   px;
-  border: 2px solid rgba(255, 255, 255, 0.75);
-  border-radius: 40px;
-  background: -webkit-linear-gradient(#FFFB05, #FFB805);
-  transition: all 0.3s ease 0s;
-}
 
-.btn-primary:hover {
-  color: #FFF;
-  background: -webkit-linear-gradient(-135deg, #FD706B 0%, #C23A22 100%);
-  border: 2px solid rgba(255, 255, 255, 0.75);
+.div_form label{
+color: white;
 }

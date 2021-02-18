@@ -116,3 +116,10 @@ class IssueSpotted(models.Model):
     issue = models.TextField(null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=now, editable=False)
+
+
+class ContactMessage(models.Model):
+    contact_name = models.TextField(null=True)
+    contact_email = models.TextField(null=True)
+    contact_msg = models.TextField(null=True)
+    created_date = models.DateTimeField(default=now, editable=False)

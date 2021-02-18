@@ -1,7 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load staticfiles %}
 {% load i18n %}
-{% load social_share %}
 
 {% load crispy_forms_tags %}
 
@@ -75,11 +74,7 @@
                     </div> <div class="col-2">
                     <div class="card">
                         <div class="card-header tag-header">
-                            {% post_to_facebook "Post to !" %}
-                            {% post_to_twitter "Stemming-vote.ve"  "Posts" %}
-                            {% post_to_reddit "Stemming-vote.be" %}
-                            {% post_to_telegram "Stemming-vote.be" %}
-                            {% post_to_whatsapp   "Share via WhatsApp" %}
+
                         </div>
                     </div>
                 </div>

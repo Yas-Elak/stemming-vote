@@ -510,6 +510,8 @@
                         <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <li><a class="nav-link text-left active" id="v-pills-article-tab" data-toggle="pill" href="#v-pills-article" role="tab" aria-controls="v-pills-article" aria-selected="true">{% trans "Proposer un article" %}</a></li>
                             <li><a class="nav-link text-left" id="v-pills-tag-tab" data-toggle="pill" href="#v-pills-tag" role="tab" aria-controls="v-pills-tag" aria-selected="false">{% trans "Proposer un tag" %} </a></li>
+                            <li><a class="nav-link text-left" id="v-pills-issue-tab" data-toggle="pill" href="#v-issue-tag" role="tab" aria-controls="v-issue-tag" aria-selected="false">{% trans "Signaler une erreur" %} </a></li>
+
                         </ul>
                     </div>
                     <div class="col-md-9 col-sm-12">
@@ -532,7 +534,16 @@
                                     </div>
                                     <button type="submit" name="tag_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
                                 </form>
-                            </div>
+                            </div><div class="tab-pane fade" id="v-issue-tag" role="tabpanel" aria-labelledby="v-pills-issue-tab">
+                            <form method="post">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    {{ form_issue.issue_spotted|as_crispy_field }}
+                                </div>
+                                <button type="submit" name="issue_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                            </form>
+                        </div>
                         </div>
                     </div>
                 </div>

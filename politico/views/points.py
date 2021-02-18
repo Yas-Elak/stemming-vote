@@ -4,10 +4,11 @@ from comment.models import Comment
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag, UserVote, VotingPointDocs
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, ProposedArticle, Tag, UserVote, \
+    VotingPointDocs, IssueSpotted
 import json
 from django.utils import translation
-from ..forms import ProposeArticleForm, ProposeTagForm
+from ..forms import ProposeArticleForm, ProposeTagForm, ProposeIssueForm
 from django.utils.translation import gettext
 from django.utils import timezone
 
@@ -169,6 +170,8 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
 
     form_article = ProposeArticleForm(request.POST or None)
     form_tag = ProposeTagForm(request.POST or None)
+    form_issue = ProposeIssueForm(request.POST or None)
+
 
     msg = None
 
@@ -189,7 +192,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                 success = 0
                 msg = gettext("Erreur.")
 
-    else:
+    elif 'tag_submit' in request.POST:
 
         if form_tag.is_valid():
             try:
@@ -219,6 +222,20 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
             print("here")
             msg = gettext("Erreur.")
 
+    if 'issue_submit' in request.POST:
+
+        if request.method == "POST":
+            if form_issue.is_valid():
+                current_user = request.user
+                issue_spotted = form_issue.cleaned_data.get("issue_spotted")
+                msg = gettext("Merci d'avoir soumis une erreur.")
+                issue_from_user = IssueSpotted(point_id=voting_point.id, issue=issue_spotted, user=current_user)
+                issue_from_user.save()
+                success = 1
+            else:
+                success = 0
+                msg = gettext("Erreur.")
+
     tags = Tag.objects.filter(voting_point__id=voting_point.id)
     tags_amendement = []
     if is_amendement == 1:
@@ -245,6 +262,7 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
                                                   'voting_point_of_amendement': voting_point_of_amendement,
                                                   'form_article': form_article,
                                                   'form_tag': form_tag,
+                                                  'form_issue': form_issue,
                                                   'msg': msg,
                                                   'success':success,
                                                   'tags':all_tags,

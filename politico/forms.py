@@ -8,3 +8,6 @@ class ProposeArticleForm(forms.Form):
 
 class ProposeTagForm(forms.Form):
     tag_name = forms.CharField(label='')
+
+class ProposeIssueForm(forms.Form):
+    issue_spotted = forms.CharField(widget=forms.Textarea, label='')

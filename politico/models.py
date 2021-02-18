@@ -1,7 +1,9 @@
+
 from comment.models import Comment
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -108,3 +110,9 @@ class Tag(models.Model):
 class Discussion(models.Model):
     text = models.TextField(null=False)
     voting_point = models.OneToOneField(VotingPoint, on_delete=models.CASCADE)
+
+class IssueSpotted(models.Model):
+    point_id = models.CharField(max_length=10, null=True)
+    issue = models.TextField(null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(default=now, editable=False)

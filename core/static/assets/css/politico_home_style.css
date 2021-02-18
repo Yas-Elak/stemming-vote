@@ -1,0 +1,73 @@
+#background-logo{
+position: fixed;
+ top: 10%;
+}
+
+
+#card-home{
+margin:auto;
+opacity: 90%; z-index:999; margin-top:3%;
+font-family: Roboto, sans-serif;
+}
+
+.king{
+font-size: 72px;
+  background: -webkit-linear-gradient(#FFFB05, #FFB805);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 5px;
+  margin-top:35px;
+  margin-bottom:35px;
+}
+
+.dotn{
+background: -webkit-linear-gradient(-135deg, black 0%, grey 100%);}
+
+.dotj{
+  background: -webkit-linear-gradient(#FFFB05, #FFB805);
+}
+
+.dotr{
+  background: -webkit-linear-gradient(-135deg, #FD706B 0%, #C23A22 100%);
+}
+
+h5{
+color: black;
+}
+
+.p-acc{
+color: black;
+font-family: Roboto;
+font-size: 20px !important;
+text-align: justify;
+padding-top: 20px;
+
+}
+.feather-size{
+font-size:40px;
+}
+
+.btn-primary {
+  font-family: Roboto;
+  font-size: 50px;
+  color: white;
+  letter-spacing: 1px;
+  line-height: 40   px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 40px;
+  background: -webkit-linear-gradient(#FFFB05, #FFB805);
+  transition: all 0.3s ease 0s;
+}
+
+.btn-primary:hover {
+  color: #FFF;
+  background: -webkit-linear-gradient(-135deg, #FD706B 0%, #C23A22 100%);
+  border: 2px solid rgba(255, 255, 255, 0.75);
+}

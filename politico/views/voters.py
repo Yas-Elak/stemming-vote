@@ -38,24 +38,29 @@ def detail_voter(request, voter_id):
     voter = change_url_to_nl([voter])[0]
 
     votes_count = Vote.objects.filter(voter_id=voter.id).count()
-    votes = Vote.objects.filter(voter_id=voter.id)
-    votes_by_seances = []
+    votes = Vote.objects.filter(voter_id=voter.id).order_by('-id')
+    seances = []
 
     for vote in votes:
-        votes_by_seances.append(vote.seance)
+        if vote.seance in seances:
+            print("double")
+        else:
+            seances.append(vote.seance)
 
-    # For now I want to display the last session in the front page, but the title of the session is in french and dutch
+
+    # For now I want to display the last session ivn the front page, but the title of the session is in french and dutch
     # separated by "/" So I need to split it and get one part or another depending on the user language
-    seances = set(votes_by_seances)
+    #seances = set(votes_by_seances)
     for seance in seances:
         if cur_language == 'fr':
             seance.seance_name = (seance.seance_name).split('/')[0]
         else:
             seance.seance_name = (seance.seance_name).split('/')[1]
 
-    voted_yes_for =  Vote.objects.filter(voter_id=voter.id, vote_decision=0)
-    voted_no_for = Vote.objects.filter(voter_id=voter.id, vote_decision=1)
-    voted_abs_for = Vote.objects.filter(voter_id=voter.id, vote_decision=2)
+
+    voted_yes_for =  Vote.objects.filter(voter_id=voter.id, vote_decision=0).order_by('-id')
+    voted_no_for = Vote.objects.filter(voter_id=voter.id, vote_decision=1).order_by('-id')
+    voted_abs_for = Vote.objects.filter(voter_id=voter.id, vote_decision=2).order_by('-id')
 
 
     #need to count how many seances he voted in

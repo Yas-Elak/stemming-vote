@@ -27,10 +27,18 @@ def index(request):
     tags = Tag.objects.annotate(q_count=Count('voting_point')).order_by('-q_count')[:15]
 
     tag_list_popularity = []
+    max_count_tag = 0
     for tag in tags:
         tag_list_popularity.append([tag.name, tag.voting_point.count()])
+        if tag.voting_point.count() > max_count_tag:
+            max_count_tag = tag.voting_point.count()
+
+
     random.shuffle(tag_list_popularity)
     voting_points_by_count = VotingPoint.objects.all().order_by('-users_vote_count')[:5]
+
+    for tag in tag_list_popularity:
+        tag[1] = int((tag[1]/max_count_tag)*9)
 
     #Législature en cours: 55
 

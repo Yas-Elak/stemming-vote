@@ -305,17 +305,16 @@ def user_vote(request, seance_id, votingpoint_id, is_amendement, result):
 
 def redirect_from_comment(request, comment_id):
     # a comment can come from an amendement and a voting point and I have no way to now from which one the front page
-    #  comment comes from
 
     #First I get the comment
     comment = Comment.objects.get(id=comment_id)
     print((comment.content_type.model))
     if comment.content_type.model == 'votingpoint':
-        print("here")
+        print(comment.content_type.model)
         vp = VotingPoint.objects.filter(comments__content=comment.content).first()
-        return redirect("/seance/%s/%s/0" % (vp.seance.id, vp.id))
+        return redirect("/seances/seance/%s/%s/0" % (vp.seance.id, vp.id))
     else :
         vp = Amendement.objects.filter(comments__content=comment.content).first()
-        return redirect("/seance/%s/%s/1" % (vp.seance.id, vp.id))
+        return redirect("/seances/seance/%s/%s/1" % (vp.seance.id, vp.id))
 
     #Then I try to get a voting poin

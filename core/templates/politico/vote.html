@@ -488,12 +488,12 @@
                                         {% if is_amendement == 1 %}
                                         {% for vp in voting_point_of_amendement.votingpointdocs_set.all  %}
                                         <p><a href="{{ vp.url }}">{{ vp.url }}</a></p>
-                                        <iframe  id="vpd_{{ vp.id }}"  style="border: none;"  width="500" height="500" src=""></iframe>
+                                        <iframe  id="vpd_{{ vp.id }}"  style="border: none;"  width="800" height="800" src=""></iframe>
                                         {% endfor %}
                                         {% else %}
                                         {% for vp in voting_point.votingpointdocs_set.all  %}
                                         <p><a href="{{ vp.url }}">{{ vp.url }}</a></p>
-                                        <iframe  id="vpd_{{ vp.id }}"  style="border: none;"  width="500" height="500" src=""></iframe>
+                                        <iframe  id="vpd_{{ vp.id }}"  style="border: none;"  width="800" height="800" src=""></iframe>
                                         {% endfor %}
                                         {% endif %}
 

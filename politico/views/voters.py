@@ -42,10 +42,10 @@ def detail_voter(request, voter_id):
     seances = []
 
     for vote in votes:
-        if vote.seance in seances:
-            print("double")
-        else:
+        if vote.seance not in seances:
             seances.append(vote.seance)
+
+
 
 
     # For now I want to display the last session ivn the front page, but the title of the session is in french and dutch

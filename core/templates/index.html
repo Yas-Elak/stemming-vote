@@ -102,8 +102,8 @@
 
                     <div class="col-md-8">
                         <div class="card"><div class="card-header">
-                                <h5>{% trans "Derniers commentaires" %}</h5>
-                            </div>
+                            <h5>{% trans "Derniers commentaires" %}</h5>
+                        </div>
                             <div class="card-block">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
@@ -125,14 +125,12 @@
                         <div class="card">
                             <div class="card-block">
                                 <h6 class="mb-4">{% trans "Tags les plus populaires" %}</h6>
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-12">
-                                        {% for tag in tags %}
-                                        <a href="/search/result/{{ tag.name }}"  ><span style="margin-bottom:13px;">{{tag.name}}</span></a>
+                                    <ul class="cloud" role="navigation" aria-label="Webdev tag cloud">
 
+                                        {% for tag in tags %}
+                                        <li><a data-weight="{{ tag.1 }}"href="/search/result/{{ tag.0 }}">{{tag.0}}</a></li>
                                         {% endfor %}
-                                    </div>
-                                </div>
+                                    </ul>
                             </div>
                         </div>
                     </div>

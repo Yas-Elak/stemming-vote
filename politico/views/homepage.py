@@ -2,6 +2,7 @@ from django.db.models import Count
 from django.shortcuts import render
 from django.utils import translation
 from comment.models import Comment
+import random
 
 from ..models import Seance, VotingPoint, Amendement, TotalVote, Voter, Tag
 
@@ -22,9 +23,14 @@ def index(request):
     total_politiciens = Voter.objects.all().count()
 
     #tags by popularity
-    tags = Tag.objects.annotate(q_count=Count('voting_point')).order_by('-q_count')[:25]
+    #i get a certain number of tag but I also have to give them a popularity and shuffle the list
+    tags = Tag.objects.annotate(q_count=Count('voting_point')).order_by('-q_count')[:15]
 
-    voting_points_by_count =  VotingPoint.objects.all().order_by('-users_vote_count')[:5]
+    tag_list_popularity = []
+    for tag in tags:
+        tag_list_popularity.append([tag.name, tag.voting_point.count()])
+    random.shuffle(tag_list_popularity)
+    voting_points_by_count = VotingPoint.objects.all().order_by('-users_vote_count')[:5]
 
     #Législature en cours: 55
 
@@ -35,7 +41,7 @@ def index(request):
     return render(request, "index.html", {'seances': last_sessions,
                                           'total_votes_count': Total_votes_count,
                                           'voters': total_politiciens,
-                                          'tags': tags,
+                                          'tags': tag_list_popularity,
                                           'voting_points_by_count':voting_points_by_count,
                                           'last_comments': last_comments,
                                           'segment': 'index'})

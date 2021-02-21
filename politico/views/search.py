@@ -67,13 +67,19 @@ def result(request):
                                                            'members_count':members_count})
 
 def tag_result(request, tag_name):
+    voting_points_count = 0
+    amendements_count = 0
 
     voting_points = VotingPoint.objects.filter(Q(tag__name__icontains=tag_name))
     amendements = Amendement.objects.filter(Q(tag__name__icontains=tag_name))
+    voting_points_count = voting_points.count()
+    amendements_count = amendements.count()
 
     return render(request, "politico/search_result.html", {'segment': 'search',
                                                            'voting_points': voting_points,
                                                            'amendements': amendements,
+                                                           'voting_points_count': voting_points_count,
+                                                           'amendements_count': amendements_count,
                                                            })
 
 

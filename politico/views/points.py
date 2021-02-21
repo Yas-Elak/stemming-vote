@@ -77,20 +77,20 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
         # for next and previous points and amendement
         try:
             previous_point = VotingPoint.objects.get(pk=(voting_point_of_amendement.id-1), seance=seance)
-        except VotingPoint.DoesNotExist:
+        except:
             previous_point = None
         try:
             next_point = VotingPoint.objects.get(pk=(voting_point_of_amendement.id+1), seance=seance)
-        except VotingPoint.DoesNotExist:
+        except:
             next_point = None
 
         try:
-            previous_amd = Amendement.objects.get(pk=(voting_point.id-1), voting_point=voting_point_of_amendement)
-        except VotingPoint.DoesNotExist:
+            previous_amd = Amendement.objects.get_object_or_404(pk=(voting_point.id-1), voting_point=voting_point_of_amendement)
+        except:
             previous_amd = None
         try:
             next_amd =  Amendement.objects.get(pk=(voting_point.id+1), voting_point=voting_point_of_amendement)
-        except VotingPoint.DoesNotExist:
+        except:
             next_amd = None
 
 

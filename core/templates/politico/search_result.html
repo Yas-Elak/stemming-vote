@@ -33,25 +33,25 @@
                                             {% if seances %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseSeance" role="button" aria-expanded="false"
-                                               aria-controls="collapseSeance">{% trans "Séances" %}</a>
+                                               aria-controls="collapseSeance">{% trans "Séances" %} | {{ seances_count }}</a>
                                             {% endif %}
 
                                             {% if voting_points %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseVP" role="button" aria-expanded="false"
-                                               aria-controls="collapseVP">{% trans "Points" %}</a>
+                                               aria-controls="collapseVP">{% trans "Points" %} | {{ voting_points_count }}</a>
                                             {% endif %}
 
                                             {% if amendements %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseAmendements" role="button" aria-expanded="false"
-                                               aria-controls="collapseAmendements">{% trans "Amendements" %}</a>
+                                               aria-controls="collapseAmendements">{% trans "Amendements" %} | {{ amendements_count }}</a>
                                             {% endif %}
 
                                             {% if members %}
                                             <a class="btn btn-primary m-t-5" data-toggle="collapse"
                                                href="#collapseMembres" role="button" aria-expanded="false"
-                                               aria-controls="collapseMembres">{% trans "Membres" %}</a>
+                                               aria-controls="collapseMembres">{% trans "Membres" %} | {{ members_count }}</a>
                                             {% endif %}
                                         </div>
                                         {% if seances %}
@@ -189,7 +189,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="image-parent-decision-list">
-                                                                    <img src="{{ m.voter_image }}" class="img-thumbnail" alt="{{ voter.voter_name }}">
+                                                                    <img src="{% static 'assets/images/politico/politicians/'|add:m.voter_image %}" class="img-thumbnail" alt="{{ m.voter_name }}">
                                                                 </div>
                                                             </td>
                                                             <td class="align-middle list-decision-name"><a href="/members/{{m.id}}">{{ m.voter_name }}</a></td>

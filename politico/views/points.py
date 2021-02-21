@@ -195,27 +195,34 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
     elif 'tag_submit' in request.POST:
 
         if form_tag.is_valid():
-            try:
-                current_user = request.user
-                tag_name = form_tag.cleaned_data.get("tag_name")
-                msg = gettext("Merci d'avoir soumis un tag.")
-                if is_amendement == 0:
-                    tag = Tag.objects.create(name=tag_name.lower(), user=current_user)
-                    tag.voting_point.add(voting_point)
-                else:
-                    tag = Tag.objects.create(name=tag_name.lower(), user=current_user)
-                    tag.voting_point.add(voting_point_of_amendement)
-                    tag.amendement.add(voting_point)
-                success = 1
-            except IntegrityError as e:
-                success = 1
-                tag = Tag.objects.get(name=tag_name)
-                if is_amendement == 0:
-                    tag.voting_point.add(voting_point)
-                else:
-                    tag.voting_point.add(voting_point_of_amendement)
-                    tag.amendement.add(voting_point)
-                msg = gettext("Le tag existe déjà, il est maintenant lié à ce point.")
+            current_user = request.user
+            tag_names = form_tag.cleaned_data.get("tag_name").split(',')
+            existing_tag = ''
+            for tag_name in tag_names:
+                try:
+                    if is_amendement == 0:
+                        tag = Tag.objects.create(name=tag_name.strip().lower(), user=current_user)
+                        tag.voting_point.add(voting_point)
+                    else:
+                        tag = Tag.objects.create(name=tag_name.strip().lower(), user=current_user)
+                        tag.voting_point.add(voting_point_of_amendement)
+                        tag.amendement.add(voting_point)
+                    success = 1
+                except IntegrityError as e:
+                    success = 1
+                    tag = Tag.objects.get(name=tag_name)
+                    if is_amendement == 0:
+                        tag.voting_point.add(voting_point)
+                    else:
+                        tag.voting_point.add(voting_point_of_amendement)
+                        tag.amendement.add(voting_point)
+                    existing_tag += tag_name + ' '
+            if not existing_tag:
+                msg = gettext("Merci d'avoir soumis un / des tags.")
+            else:
+                print("here")
+                msg = gettext("Merci d'avoir soumis un tag. ")
+                msg += existing_tag + gettext(" existe(nt) déjà.")
 
         else:
             success = 0
@@ -248,6 +255,11 @@ def detail_voting_point(request, seance_id, votingpoint_id, is_amendement):
 
     if not request.user.is_authenticated:
         can_vote = 0
+
+    #to clear the forms after submit
+    form_article = ProposeArticleForm()
+    form_tag = ProposeTagForm()
+    form_issue = ProposeIssueForm()
 
 
     return render(request, 'politico/vote.html', {'seance': seance,

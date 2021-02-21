@@ -8,7 +8,7 @@ class ProposeArticleForm(forms.Form):
 
 
 class ProposeTagForm(forms.Form):
-    tag_name = forms.CharField(label='')
+    tag_name = forms.CharField(label=gettext('Vous pouvez proposer plusieurs tags en les séparant par une virgule: tag1, tag2, tag3'))
 
 
 class ProposeIssueForm(forms.Form):

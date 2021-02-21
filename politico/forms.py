@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext
 
 
 class ProposeArticleForm(forms.Form):
@@ -15,7 +16,7 @@ class ProposeIssueForm(forms.Form):
 
 
 class ContactForm(forms.Form):
-    contact_name = forms.CharField(label='Name')
-    contact_email = forms.CharField(label='Email')
-    contact_msg = forms.CharField(widget=forms.Textarea, label='Message ')
+    contact_name = forms.CharField(label=gettext('Naom'))
+    contact_email = forms.CharField(label='E-mail')
+    contact_msg = forms.CharField(widget=forms.Textarea, label=gettext('Message'))
 

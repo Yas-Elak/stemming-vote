@@ -16,6 +16,10 @@ def index(request):
 def result(request):
     cur_language = translation.get_language()
     query = request.GET.get('q')
+    seances_count = 0
+    voting_points_count = 0
+    amendements_count = 0
+    members_count = 0
 
     if cur_language == 'fr':
         seances = Seance.objects.filter(
@@ -47,11 +51,20 @@ def result(request):
             Q(voter_name__icontains=query) | Q(voter_email__icontains=query)
         ).order_by('voter_parti')
 
+    seances_count = seances.count()
+    voting_points_count = voting_points.count()
+    amendements_count = amendements.count()
+    members_count = members.count()
+
     return render(request, "politico/search_result.html", {'seances': seances,
                                                            'voting_points': voting_points,
                                                            'amendements': amendements,
                                                            'members': members,
-                                                           'segment': 'search'})
+                                                           'segment': 'search',
+                                                           'seances_count':seances_count,
+                                                           'voting_points_count':voting_points_count,
+                                                           'amendements_count':amendements_count,
+                                                           'members_count':members_count})
 
 def tag_result(request, tag_name):
 

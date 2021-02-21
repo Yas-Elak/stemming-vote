@@ -68,7 +68,7 @@
                             <div class="card-header tag-header">
                                 Tags:
                                 {% for tag in tags %}
-                                <a href="/search/result/{{ tag.name }}" class="label theme-bg text-white f-12 tag" >{{tag.name}}</a>
+                                <a href="/search/result/{{ tag.name }}" class="label theme-bg3 text-white f-12 tag" >{{tag.name}}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -239,14 +239,14 @@
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
                                         {% for link in voting_point_of_amendement.linkarticle_set.all  %}
                                         {% if link.language == 'FR' %}
-                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article article-fr" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
                                         {% for link in voting_point_of_amendement.linkarticle_set.all  %}
                                         {% if link.language == 'NL' %}
-                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article article-nl" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -259,14 +259,14 @@
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'FR' %}
-                                        <li class="list-group-item" ><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item" ><a class="article article-fr" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'NL' %}
-                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}"  href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article article-nl" data-article-item="{{ link.id }}"  href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -444,14 +444,14 @@
                                     <ul class="list-group {% if LANGUAGE_CODE == 'fr' %}show-lg{% endif %}" id="ul-fr">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'FR' %}
-                                        <li class="list-group-item" "><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article article-fr" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     <ul class="list-group {% if LANGUAGE_CODE == 'nl' %}show-lg{% endif %}" id="ul-nl">
                                         {% for link in voting_point.linkarticle_set.all  %}
                                         {% if link.language == 'NL' %}
-                                        <li class="list-group-item"><a class="article" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
+                                        <li class="list-group-item"><a class="article article-nl" data-article-item="{{ link.id }}" href="{{ link.link_url }}">{{ link.link_url }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>

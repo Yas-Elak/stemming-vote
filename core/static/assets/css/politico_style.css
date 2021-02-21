@@ -15,6 +15,18 @@ td {
     color: #585858 !important;
 }
 
+.theme-bg3{
+    background: linear-gradient(-135deg, #ddd 0%, #fff 100%) !important;
+    color: #585858 !important;
+}
+
+.article-fr{
+color: #FFB805;
+}
+
+.article-nl{
+color: #C23A22;
+}
 
 h1 { font-size: 1.3em; }
 h2 { font-size: 1.1em; }

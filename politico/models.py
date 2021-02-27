@@ -84,7 +84,7 @@ class Vote(models.Model):
 
 
 class LinkArticle(models.Model):
-    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
+    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE, null=True)
     link_url = models.TextField(null=False, blank=False)
     relevance = models.IntegerField(default=1, null=False)
     language = models.CharField(max_length=2)
@@ -92,11 +92,16 @@ class LinkArticle(models.Model):
     smmry_title = models.TextField(null=True)
     smmry_reduced = models.TextField(null=True)
     smmry_done = models.BooleanField(default=False)
+    about_politician = models.BooleanField(default=False)
+    voter = models.ForeignKey(Voter, null=True, on_delete=models.SET_NULL)
+
 
 class ProposedArticle(models.Model):
-    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE)
+    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE, null=True)
     link_url = models.TextField(null=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    about_politician = models.BooleanField(default=False)
+    voter = models.ForeignKey(Voter, null=True, on_delete=models.SET_NULL)
 
 
 class Tag(models.Model):

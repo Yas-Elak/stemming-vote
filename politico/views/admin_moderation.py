@@ -46,7 +46,11 @@ def delete_article(request,article_id =None):
 @user_passes_test(lambda u: u.is_superuser)
 def add_article(request, article_id, lang):
     article = ProposedArticle.objects.filter(id=article_id).first()
-    lk = LinkArticle(voting_point=article.voting_point, link_url=article.link_url, language=lang)
+
+    if article.about_politician:
+        lk = LinkArticle(voter=article.voter, link_url=article.link_url, language=lang, about_politician=True)
+    else:
+        lk = LinkArticle(voting_point=article.voting_point, link_url=article.link_url, language=lang)
     lk.save()
     article.delete()
     print(lk.link_url)

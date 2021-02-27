@@ -2,9 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import translation
 
-from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, Voter
+from ..models import Seance, VotingPoint, Amendement, TotalVote, Parti, Vote, Voter, ProposedArticle
 import json
 from .constants import *
+from ..forms import ProposeArticleForm
+from django.utils.translation import gettext
 
 
 #The segment variable is to activate the right menu in the sidebar
@@ -48,6 +50,7 @@ def detail_voter(request, voter_id):
 
 
 
+
     # For now I want to display the last session ivn the front page, but the title of the session is in french and dutch
     # separated by "/" So I need to split it and get one part or another depending on the user language
     #seances = set(votes_by_seances)
@@ -68,6 +71,25 @@ def detail_voter(request, voter_id):
     total_seances_55 = Seance.objects.all().count()
     participation_pourcent = str(round((number_of_seances/total_seances_55)*100, 2))
 
+
+    form_article = ProposeArticleForm(request.POST or None)
+    msg = None
+    if 'article_submit' in request.POST:
+
+        if request.method == "POST":
+            if form_article.is_valid():
+                current_user = request.user
+                article_url = form_article.cleaned_data.get("article_url")
+
+                msg = gettext("Merci d'avoir soumis un article.")
+                pa = ProposedArticle(voter=voter, link_url=article_url, user=current_user, about_politician=True)
+                pa.save()
+                success = 1
+            else:
+                success = 0
+                msg = gettext("Erreur.")
+    form_article = ProposeArticleForm(request.POST or None)
+
     return render(request, "politico/member.html", {'voter': voter,
                                                     'votes_count': votes_count,
                                                     'votes': votes,
@@ -78,7 +100,9 @@ def detail_voter(request, voter_id):
                                                     'segment': 'membres',
                                                     'number_of_seances':number_of_seances,
                                                     'total_seances_55':total_seances_55,
-                                                    'participation_pourcent':participation_pourcent})
+                                                    'participation_pourcent':participation_pourcent,
+                                                    'form_article':form_article,
+                                                    'msg': msg})
 
 
 def change_url_to_nl(voters):

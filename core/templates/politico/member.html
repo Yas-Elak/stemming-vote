@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% block title %} Députés / Parlementslid {% endblock %}
+{% load crispy_forms_tags %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
@@ -69,6 +70,43 @@
                         </div>
                     </div>
                 </div>
+
+                {% if user.is_authenticated %}
+
+                <div>
+                    {% if success == 1 %}
+                    <div class="alert alert-success" role="alert">
+                        {{ msg }}
+                    </div>
+                    {% elif success == 0 %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ msg }}
+                    </div>
+
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <li><a class="nav-link text-left active" id="v-pills-article-tab" data-toggle="pill" href="#v-pills-article" role="tab" aria-controls="v-pills-article" aria-selected="true">{% trans "Proposer un article" %}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-article" role="tabpanel" aria-labelledby="v-pills-article-tab">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ form_article.article_url|as_crispy_field }}
+                                    </div>
+                                    <button type="submit" name="article_submit" class="btn btn-primary mb-2">{% trans "Proposer" %}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endif %}
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
